@@ -5,10 +5,12 @@ import { ProductsModule } from './modules/products/products.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true}),
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/warehouse'),
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRoot(
+      process.env.MONGO_URI ||
+        'mongodb+srv://admin:4RthrPNZszs9hsXz@size-container.seauv.mongodb.net/warehouse?retryWrites=true&w=majority',
+    ),
     ProductsModule,
   ],
-  
 })
 export class AppModule {}
