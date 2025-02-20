@@ -10,8 +10,12 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
+  async createOne(createProductDto: CreateProductDto): Promise<Product> {
     return this.productModel.create(createProductDto);
+  }
+
+  async createMany(createProductDto: CreateProductDto[]): Promise<Product[]> {
+    return this.productModel.insertMany(createProductDto);
   }
 
   async findAll(): Promise<Product[]> {

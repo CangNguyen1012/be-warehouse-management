@@ -27,23 +27,31 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a product' })
+  @ApiOperation({ summary: 'Create one or multiple products' })
   @ApiResponse({
     status: 201,
-    description: 'The product has been successfully created.',
+    description: 'The product(s) have been successfully created.',
   })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
-  @ApiBody({ type: CreateProductDto })
+  @ApiBody({ type: [CreateProductDto] })
   async create(
-    @Body() createProductDto: CreateProductDto,
+    @Body() createProductDto: CreateProductDto | CreateProductDto[],
     @Res() res: Response,
   ): Promise<any> {
     try {
-      const product = await this.productsService.create(createProductDto);
-      return res.status(HttpStatus.CREATED).json(product);
+      let products;
+      if (Array.isArray(createProductDto)) {
+        products = await this.productsService.createMany(createProductDto);
+      } else {
+        products = await this.productsService.createOne(createProductDto);
+      }
+      return res.status(HttpStatus.CREATED).json(products);
     } catch (error) {
       console.error('Error creating product:', error);
-      throw new HttpException('Error creating product', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Error creating product (s)',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
