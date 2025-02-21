@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  Query,
   BadRequestException,
   NotFoundException,
   InternalServerErrorException,
@@ -58,18 +57,11 @@ export class ProductsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all products with pagination' })
-  @ApiResponse({ status: 200, description: 'Return paginated products.' })
+  @ApiOperation({ summary: 'Get all products' })
   @ApiResponse({ status: 500, description: 'Internal Server Error.' })
-  async findAll(
-    @Query('page') page = 1,
-    @Query('limit') limit = 10,
-  ): Promise<any> {
+  async findAll(): Promise<any> {
     try {
-      page = Math.max(Number(page) || 1, 1);
-      limit = Math.max(Number(limit) || 10, 1);
-
-      return await this.productsService.findAll(page, limit);
+      return await this.productsService.findAll();
     } catch (error) {
       console.error('Error fetching products:', error);
       throw new InternalServerErrorException('Failed to fetch products');

@@ -26,36 +26,8 @@ export class ProductsService {
     return this.productModel.insertMany(createProductDto);
   }
 
-  async findAll(
-    page: number,
-    limit: number,
-  ): Promise<{
-    data: Product[];
-    total: number;
-    page: number;
-    totalPages: number;
-    limit: number;
-  }> {
-    const skip = (page - 1) * limit;
-    const total = await this.productModel.countDocuments();
-
-    if (total === 0) {
-      return { data: [], total, page, totalPages: 0, limit };
-    }
-
-    const products = await this.productModel
-      .find()
-      .skip(skip)
-      .limit(limit)
-      .exec();
-
-    return {
-      data: products,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit),
-      limit,
-    };
+  async findAll(): Promise<Product[]> {
+    return this.productModel.find().exec();
   }
 
   async findOne(id: string): Promise<Product> {
