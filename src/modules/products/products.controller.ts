@@ -19,7 +19,8 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
-import { CreateProductDto, UpdateProductDto } from './dto/products.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @ApiTags('products')
 @Controller('products')
