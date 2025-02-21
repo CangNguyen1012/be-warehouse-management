@@ -9,6 +9,7 @@ import {
   HttpException,
   HttpStatus,
   Res,
+  Query,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -56,12 +57,19 @@ export class ProductsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all products' })
-  @ApiResponse({ status: 200, description: 'Return all products.' })
+  @ApiOperation({ summary: 'Get all products with pagination' })
+  @ApiResponse({ status: 200, description: 'Return paginated products.' })
   @ApiResponse({ status: 500, description: 'Internal Server Error.' })
-  async findAll(@Res() res: Response): Promise<any> {
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Res() res: Response,
+  ): Promise<any> {
     try {
-      const products = await this.productsService.findAll();
+      page = Number(page) || 1;
+      limit = Number(limit) || 10;
+
+      const products = await this.productsService.findAll(page, limit);
       return res.status(HttpStatus.OK).json(products);
     } catch (error) {
       console.error('Error fetching products:', error);
