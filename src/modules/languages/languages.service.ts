@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Language } from './schemas/language.schema';
 import { Model } from 'mongoose';
@@ -14,8 +19,21 @@ export class LanguagesService {
   async createLanguage(
     createLanguageDto: CreateLanguageDto,
   ): Promise<Language> {
-    const newLanguage = new this.languageModel(createLanguageDto);
-    return newLanguage.save();
+    try {
+      const existingLanguage = await this.languageModel
+        .findOne({ languageCode: createLanguageDto.languageCode })
+        .exec();
+      if (existingLanguage) {
+        throw new ConflictException(
+          `Language with code ${createLanguageDto.languageCode} already exists`,
+        );
+      }
+      const newLanguage = new this.languageModel(createLanguageDto);
+      return newLanguage.save();
+    } catch (error) {
+      console.error('Error creating language:', error);
+      throw new InternalServerErrorException('An unexpected error occurred');
+    }
   }
 
   async findAllLanguages(): Promise<Language[]> {

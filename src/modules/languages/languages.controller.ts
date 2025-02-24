@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LanguagesService } from './languages.service';
 import { CreateLanguageDto } from './dto/create-language.dto';
 import { Language } from './schemas/language.schema';
@@ -20,6 +20,12 @@ export class LanguagesController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new language' })
+  @ApiResponse({ status: 201, description: 'Language created successfully.' })
+  @ApiResponse({ status: 400, description: 'Bad Request - Validation error.' })
+  @ApiResponse({
+    status: 409,
+    description: 'Conflict - Language code already exists.',
+  })
   create(@Body() createLanguageDto: CreateLanguageDto): Promise<Language> {
     return this.languagesService.createLanguage(createLanguageDto);
   }
