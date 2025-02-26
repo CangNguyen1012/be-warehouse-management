@@ -7,6 +7,7 @@ import { CountriesModule } from './modules/countries/countries.module';
 import { JobModeModule } from './modules/job-mode/job-mode.module';
 import { CommoditiesModule } from './modules/commodity/commodities.module';
 import { StuffUnstuffModule } from './modules/stuff-unstuff/stuff-unstuff.module';
+import { CustomerTypesModule } from './modules/customer-types/customer-types.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { StuffUnstuffModule } from './modules/stuff-unstuff/stuff-unstuff.module
     JobModeModule,
     CommoditiesModule,
     StuffUnstuffModule,
+    CustomerTypesModule,
   ],
 })
 export class AppModule {}
