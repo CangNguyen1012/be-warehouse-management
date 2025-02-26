@@ -37,6 +37,5 @@ export class UpdateJobModeDto {
   extraMode?: number;
 
   @IsString()
-  @IsNotEmpty()
   modifiedBy: string;
 }

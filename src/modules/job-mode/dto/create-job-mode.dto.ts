@@ -37,6 +37,5 @@ export class CreateJobModeDto {
   extraMode?: number;
 
   @IsString()
-  @IsNotEmpty()
   createdBy: string;
 }
