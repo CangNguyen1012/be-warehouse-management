@@ -5,6 +5,8 @@ import { ProductsModule } from './modules/products/products.module';
 import { LanguagesModule } from './modules/languages/languages.module';
 import { CountriesModule } from './modules/countries/countries.module';
 import { JobModeModule } from './modules/job-mode/job-mode.module';
+import { CommoditiesModule } from './modules/commodity/commodities.module';
+import { StuffUnstuffModule } from './modules/stuff-unstuff/stuff-unstuff.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { JobModeModule } from './modules/job-mode/job-mode.module';
     LanguagesModule,
     CountriesModule,
     JobModeModule,
+    CommoditiesModule,
+    StuffUnstuffModule,
   ],
 })
 export class AppModule {}
