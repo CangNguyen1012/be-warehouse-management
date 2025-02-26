@@ -36,8 +36,15 @@ export class LanguagesService {
     }
   }
 
-  async findAllLanguages(): Promise<Language[]> {
-    return this.languageModel.find().exec();
+  async findAllLanguages(page: number, limit: number) {
+    const total = await this.languageModel.countDocuments();
+    const results = await this.languageModel
+      .find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    return { page, limit, total, results };
   }
 
   async findOneLanguage(id: string): Promise<Language> {

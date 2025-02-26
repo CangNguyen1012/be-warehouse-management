@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LanguagesService } from './languages.service';
@@ -32,8 +33,16 @@ export class LanguagesController {
 
   @Get()
   @ApiOperation({ summary: 'Get all languages' })
-  findAll(): Promise<Language[]> {
-    return this.languagesService.findAllLanguages();
+  async findAll(@Query('page') page = 1, @Query('limit') limit = 191) {
+    const data = await this.languagesService.findAllLanguages(
+      Number(page),
+      Number(limit),
+    );
+    return {
+      statusCode: 200,
+      data,
+      timestamp: new Date().toISOString(),
+    };
   }
 
   @Get(':id')
