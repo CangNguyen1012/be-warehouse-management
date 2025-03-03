@@ -85,10 +85,4 @@ export class CreateReferDto {
   @ApiProperty()
   @IsString()
   createdBy: string = 'admin';
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  createdTime?: Date;
 }

@@ -58,9 +58,6 @@ export class Refer {
 
   @Prop({ default: 'etest' })
   createdBy: string;
-
-  @Prop({ type: Date, default: null })
-  createdTime?: Date;
 }
 
 // Adjust to UTC-7
