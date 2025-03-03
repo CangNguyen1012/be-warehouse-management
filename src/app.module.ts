@@ -8,6 +8,7 @@ import { JobModeModule } from './modules/job-mode/job-mode.module';
 import { CommoditiesModule } from './modules/commodity/commodities.module';
 import { StuffUnstuffModule } from './modules/stuff-unstuff/stuff-unstuff.module';
 import { CustomerTypesModule } from './modules/customer-types/customer-types.module';
+import { ReferModule } from './modules/refer/refer.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CustomerTypesModule } from './modules/customer-types/customer-types.mod
     CommoditiesModule,
     StuffUnstuffModule,
     CustomerTypesModule,
+    ReferModule,
   ],
 })
 export class AppModule {}
