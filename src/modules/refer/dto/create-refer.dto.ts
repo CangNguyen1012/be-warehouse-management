@@ -15,7 +15,6 @@ export class CreateReferDto {
   operationCode: string;
 
   @ApiProperty()
-  @IsNotEmpty()
   @IsString()
   refName: string;
 
@@ -84,9 +83,8 @@ export class CreateReferDto {
   hourAdding: number;
 
   @ApiProperty()
-  @IsNotEmpty()
   @IsString()
-  createdBy: string;
+  createdBy: string = 'admin';
 
   @ApiProperty({ required: false })
   @IsOptional()

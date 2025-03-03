@@ -8,7 +8,7 @@ export class Refer {
   @Prop({ required: true })
   operationCode: string;
 
-  @Prop({ required: true })
+  @Prop()
   refName: string;
 
   // ✅ Explicitly define optional string fields to allow null values
@@ -56,7 +56,7 @@ export class Refer {
   @Prop({ required: true })
   hourAdding: number;
 
-  @Prop({ required: true })
+  @Prop({ default: 'etest' })
   createdBy: string;
 
   @Prop({ type: Date, default: null })

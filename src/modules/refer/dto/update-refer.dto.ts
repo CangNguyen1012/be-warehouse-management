@@ -10,7 +10,6 @@ export class UpdateReferDto {
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
   refName: string;
 
   @ApiProperty()
