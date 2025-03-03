@@ -62,7 +62,7 @@ export class Refer {
 
 // Adjust to UTC-7
 function adjustToUTCMinus7(date: Date): Date {
-  return new Date(date.getTime() - 7 * 60 * 60 * 1000);
+  return new Date(date.getTime() - 14 * 60 * 60 * 1000);
 }
 
 export const ReferSchema = SchemaFactory.createForClass(Refer);
