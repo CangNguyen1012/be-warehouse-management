@@ -32,17 +32,13 @@ export class ReferService {
   }
 
   // Get all refer records
-  async findAll(
-    page: number,
-    limit: number,
-  ): Promise<{
-    total: number;
-    page: number;
-    limit: number;
-    results: Refer[];
-  }> {
+  async findAll(page: number, limit?: number) {
+    const total = await this.referModel.countDocuments(); // Get total records
+
+    // If `limit` is not provided, set it to `total`
+    limit = limit && limit > 0 ? limit : total;
+
     const skip = (page - 1) * limit;
-    const total = await this.referModel.countDocuments();
     const refers = await this.referModel.find().skip(skip).limit(limit).exec();
 
     return {

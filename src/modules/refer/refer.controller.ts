@@ -38,13 +38,15 @@ export class ReferController {
     type: Refer,
     isArray: true,
   })
-  async findAll(@Query('page') page = 1, @Query('limit') limit = 16) {
-    const data = await this.referService.findAll(page, limit);
+  @Get()
+  async findAll(@Query('page') page = 1, @Query('limit') limit?: number) {
+    const data = await this.referService.findAll(Number(page), Number(limit));
+
     return {
       statusCode: 200,
       data: {
-        page,
-        limit,
+        page: data.page,
+        limit: data.limit, // Ensure `limit` is correctly passed
         total: data.total,
         results: data.results,
       },
