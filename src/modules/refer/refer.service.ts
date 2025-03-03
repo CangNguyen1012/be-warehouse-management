@@ -18,7 +18,7 @@ export class ReferService {
 
   //convert date from UTC-7 back to UTC+7 for FE
   private adjustToUTC(date: Date): Date {
-    return new Date(date.getTime() + 14 * 60 * 60 * 1000);
+    return new Date(date.getTime() + 7 * 60 * 60 * 1000);
   }
 
   //Create a new refer record
