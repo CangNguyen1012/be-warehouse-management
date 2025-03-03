@@ -26,14 +26,14 @@ export class Refer {
 
   @Prop({
     type: Date,
-    get: (val: Date) => adjustToUTCMinus7(val),
+    get: (val: Date) => val,
     set: (val: Date) => val,
   })
   applyDate: Date;
 
   @Prop({
     type: Date,
-    get: (val: Date) => adjustToUTCMinus7(val),
+    get: (val: Date) => val,
     set: (val: Date) => val,
   })
   expireDate: Date;
@@ -58,11 +58,6 @@ export class Refer {
 
   @Prop({ default: 'etest' })
   createdBy: string;
-}
-
-// Adjust to UTC-7
-function adjustToUTCMinus7(date: Date): Date {
-  return new Date(date.getTime() - 14 * 60 * 60 * 1000);
 }
 
 export const ReferSchema = SchemaFactory.createForClass(Refer);

@@ -16,7 +16,7 @@ export class ReferService {
     return new Date(date.getTime() - 14 * 60 * 60 * 1000);
   }
 
-  //convert date from UTC-7 back to UTC+0 for FE
+  //convert date from UTC-7 back to UTC+7 for FE
   private adjustToUTC(date: Date): Date {
     return new Date(date.getTime() + 14 * 60 * 60 * 1000);
   }
