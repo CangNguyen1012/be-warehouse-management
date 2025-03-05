@@ -11,19 +11,6 @@ export class Refer {
   @Prop()
   refName: string;
 
-  // ✅ Explicitly define optional string fields to allow null values
-  @Prop({ type: String, default: null })
-  laneCode?: string | null;
-
-  @Prop({ type: String, default: null })
-  vesselCode?: string | null;
-
-  @Prop({ type: String, default: null })
-  customerCode?: string | null;
-
-  @Prop({ type: String, default: null })
-  isLocalForeign?: string | null;
-
   @Prop({
     type: Date,
     get: (val: Date) => val,
@@ -38,15 +25,6 @@ export class Refer {
   })
   expireDate: Date;
 
-  @Prop({ type: String, default: null })
-  classCode?: string | null;
-
-  @Prop({ type: String, default: null })
-  pluginTime?: string | null;
-
-  @Prop({ type: String, default: null })
-  unplugTime?: string | null;
-
   @Prop({ required: true })
   rounding: string;
 
@@ -55,9 +33,6 @@ export class Refer {
 
   @Prop({ required: true })
   hourAdding: number;
-
-  @Prop({ default: 'etest' })
-  createdBy: string;
 }
 
 export const ReferSchema = SchemaFactory.createForClass(Refer);

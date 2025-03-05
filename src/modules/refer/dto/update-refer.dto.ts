@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateReferDto {
   @ApiProperty()
@@ -11,22 +11,6 @@ export class UpdateReferDto {
   @ApiProperty()
   @IsString()
   refName: string;
-
-  @ApiProperty()
-  @IsString()
-  laneCode?: string;
-
-  @ApiProperty()
-  @IsString()
-  vesselCode?: string;
-
-  @ApiProperty()
-  @IsString()
-  customerCode?: string;
-
-  @ApiProperty()
-  @IsString()
-  isLocalForeign?: string;
 
   @ApiProperty()
   @IsDate()
@@ -40,15 +24,14 @@ export class UpdateReferDto {
 
   @ApiProperty()
   @IsString()
-  classCode?: string;
+  rounding: string;
 
   @ApiProperty()
-  @IsDate()
-  @Type(() => Date)
-  pluginTime?: Date;
+  @IsString()
+  moneyCredit: string;
 
   @ApiProperty()
-  @IsDate()
-  @Type(() => Date)
-  unplugTime?: Date;
+  @IsNotEmpty()
+  @IsInt()
+  hourAdding: number;
 }

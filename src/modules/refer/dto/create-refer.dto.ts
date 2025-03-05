@@ -1,12 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import {
-  IsDate,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsDate, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateReferDto {
   @ApiProperty()
@@ -17,26 +11,6 @@ export class CreateReferDto {
   @ApiProperty()
   @IsString()
   refName: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  laneCode?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  vesselCode?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  customerCode?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  isLocalForeign?: string;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -49,23 +23,6 @@ export class CreateReferDto {
   @IsDate()
   @Type(() => Date)
   expireDate: Date; // Will be converted to UTC -7 in schema
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  classCode?: string;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  pluginTime?: Date;
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  unplugTime?: Date;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -81,8 +38,4 @@ export class CreateReferDto {
   @IsNotEmpty()
   @IsInt()
   hourAdding: number;
-
-  @ApiProperty()
-  @IsString()
-  createdBy: string = 'admin';
 }

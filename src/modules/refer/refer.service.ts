@@ -66,10 +66,15 @@ export class ReferService {
     };
   }
 
-  // Update a refer record
-  async update(id: string, updateReferDto: UpdateReferDto): Promise<Refer> {
-    const updatedRefer = await this.referModel.findByIdAndUpdate(
-      id,
+  // Replace a refer record (PUT)
+  async replace(id: string, updateReferDto: UpdateReferDto): Promise<Refer> {
+    const existingRefer = await this.referModel.findById(id).exec();
+    if (!existingRefer) {
+      throw new NotFoundException(`Refer with ID ${id} not found`);
+    }
+
+    const replacedRefer = await this.referModel.findOneAndReplace(
+      { _id: id },
       {
         ...updateReferDto,
         applyDate: updateReferDto.applyDate
@@ -79,15 +84,17 @@ export class ReferService {
           ? this.adjustToUTCMinus7(new Date(updateReferDto.expireDate))
           : undefined,
       },
-      { new: true },
+      { new: true, upsert: false }, // Ensure no new document is created if not found
     );
-    if (!updatedRefer) {
+
+    if (!replacedRefer) {
       throw new NotFoundException(`Refer with ID ${id} not found`);
     }
+
     return {
-      ...updatedRefer.toObject(),
-      applyDate: this.adjustToUTC(updatedRefer.applyDate),
-      expireDate: this.adjustToUTC(updatedRefer.expireDate),
+      ...replacedRefer.toObject(),
+      applyDate: replacedRefer.applyDate,
+      expireDate: replacedRefer.expireDate,
     };
   }
 

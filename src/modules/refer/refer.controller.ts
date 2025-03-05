@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -71,8 +71,8 @@ export class ReferController {
     return this.referService.findOne(id);
   }
 
-  @Patch(':id')
-  @ApiOperation({ summary: 'Update refer' })
+  @Put(':id')
+  @ApiOperation({ summary: 'Replace refer' })
   @ApiResponse({
     status: 200,
     description: 'The refer has been successfully updated.',
@@ -85,7 +85,7 @@ export class ReferController {
     required: true,
   })
   update(@Param('id') id: string, @Body() updateReferDto: UpdateReferDto) {
-    return this.referService.update(id, updateReferDto);
+    return this.referService.replace(id, updateReferDto);
   }
 
   @Delete(':id')
