@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CountriesService } from './countries.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -45,7 +45,7 @@ export class CountriesController {
     return this.countriesService.findOneCountry(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({ summary: 'Update a country' })
   @ApiResponse({ status: 200, description: 'Country updated successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })

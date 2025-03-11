@@ -4,11 +4,11 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
   BadRequestException,
   NotFoundException,
   InternalServerErrorException,
+  Put,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -82,7 +82,7 @@ export class ProductsController {
     }
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({ summary: 'Update a product' })
   @ApiParam({ name: 'id', required: true, description: 'Product ID' })
   @ApiResponse({

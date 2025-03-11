@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -52,7 +52,7 @@ export class LanguagesController {
     return this.languagesService.findOneLanguage(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({ summary: 'Update a language by ID' })
   @ApiParam({ name: 'id', type: 'string' })
   update(

@@ -6,8 +6,8 @@ import {
   HttpCode,
   NotFoundException,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -63,7 +63,7 @@ export class StuffUnstuffController {
     };
   }
 
-  @Patch(':id')
+  @Put(':id')
   @HttpCode(200)
   @ApiOperation({ summary: 'Update stuff unstuff' })
   @ApiResponse({ status: 200, description: 'Updated successfully' })

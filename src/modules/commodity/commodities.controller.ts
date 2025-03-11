@@ -3,10 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   HttpCode,
+  Put,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { CommoditiesService } from './commodities.service';
@@ -50,7 +50,7 @@ export class CommoditiesController {
     return this.commoditiesService.findByIdCommodity(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @HttpCode(200)
   @ApiOperation({ summary: 'Update a commodity by ID' })
   @ApiParam({ name: 'id', description: 'Commodity ID' })

@@ -6,7 +6,7 @@ import {
   Param,
   Delete,
   HttpCode,
-  Patch,
+  Put,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CustomerTypesService } from './customer-types.service';
@@ -57,7 +57,7 @@ export class CustomerTypesController {
     return this.customerTypesService.findAll();
   }
 
-  @Patch(':id')
+  @Put(':id')
   @HttpCode(200)
   @ApiOperation({ summary: 'Update a customer type by ID' })
   @ApiResponse({

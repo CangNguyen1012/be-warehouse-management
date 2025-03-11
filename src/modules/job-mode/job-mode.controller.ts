@@ -3,10 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Query,
+  Put,
 } from '@nestjs/common';
 import { JobModeService } from './job-mode.service';
 import { CreateJobModeDto } from './dto/create-job-mode.dto';
@@ -43,7 +43,7 @@ export class JobModeController {
     };
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateJobModeDto: UpdateJobModeDto,
