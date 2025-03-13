@@ -1,15 +1,14 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCommodityDto {
+  @ApiProperty({ description: 'The code of the commodity' })
   @IsString()
   @IsNotEmpty()
-  readonly commodityCode: string;
+  commodityCode: string;
 
+  @ApiProperty({ description: 'The name of the commodity' })
   @IsString()
   @IsNotEmpty()
-  readonly commodityName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly createdBy: string;
+  commodityName: string;
 }

@@ -12,30 +12,47 @@ export class JobModeService {
   ) {}
 
   async create(dto: CreateJobModeDto): Promise<JobMode> {
-    const newJobMode = new this.jobModeModel(dto);
-    return newJobMode.save();
+    return this.jobModeModel.create(dto);
   }
 
-  async findAll(page: number, limit: number) {
+  async findAll(page = 1, limit = 10) {
     const total = await this.jobModeModel.countDocuments();
     const results = await this.jobModeModel
       .find()
       .skip((page - 1) * limit)
-      .limit(limit);
-    return { page, limit, total, results };
+      .limit(limit)
+      .lean()
+      .exec();
+
+    return {
+      statusCode: 200,
+      data: {
+        page,
+        limit,
+        total,
+        results,
+      },
+      timestamp: new Date().toISOString(),
+    };
   }
 
   async findOne(id: string): Promise<JobMode> {
-    const jobMode = await this.jobModeModel.findById(id);
-    if (!jobMode) throw new NotFoundException('Job Mode not found');
+    const jobMode = await this.jobModeModel.findById(id).lean().exec();
+    if (!jobMode)
+      throw new NotFoundException(`Job Mode with ID ${id} not found`);
     return jobMode;
   }
 
   async update(id: string, dto: UpdateJobModeDto): Promise<JobMode> {
-    const updated = await this.jobModeModel.findByIdAndUpdate(id, dto, {
-      new: true,
-    });
-    if (!updated) throw new NotFoundException('Job Mode not found');
+    const updated = await this.jobModeModel
+      .findByIdAndUpdate(id, dto, {
+        new: true,
+        lean: true,
+      })
+      .exec();
+
+    if (!updated)
+      throw new NotFoundException(`Job Mode with ID ${id} not found`);
     return updated;
   }
 

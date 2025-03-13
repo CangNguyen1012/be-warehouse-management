@@ -10,9 +10,6 @@ export class StuffUnstuff extends Document {
 
   @Prop({ required: true })
   commodityCode: string;
-
-  @Prop({ required: true })
-  createdBy: string;
 }
 
 export const StuffUnstuffSchema = SchemaFactory.createForClass(StuffUnstuff);

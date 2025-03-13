@@ -81,7 +81,7 @@ export class CustomerTypesController {
     description: 'Customer type deleted successfully.',
   })
   @ApiResponse({ status: 404, description: 'Customer type not found.' })
-  remove(@Param('id') id: string): Promise<void> {
+  remove(@Param('id') id: string): Promise<{ message: string }> {
     return this.customerTypesService.remove(id);
   }
 }

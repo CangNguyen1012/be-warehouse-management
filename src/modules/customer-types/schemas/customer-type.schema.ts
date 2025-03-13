@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export type CustomerDocument = Customer & Document;
+
 @Schema({ timestamps: { createdAt: 'createdTime', updatedAt: 'modifiedTime' } })
 export class Customer extends Document {
   @Prop({ required: true, unique: true })

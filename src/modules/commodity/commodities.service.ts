@@ -9,43 +9,55 @@ import { UpdateCommodityDto } from './dto/update-commodity.dto';
 export class CommoditiesService {
   constructor(
     @InjectModel(Commodity.name)
-    private commodityModel: Model<CommodityDocument>,
+    private readonly commodityModel: Model<CommodityDocument>,
   ) {}
 
-  async createCommodity(createCommodityDto: CreateCommodityDto) {
-    return await this.commodityModel.create(createCommodityDto);
+  async create(createCommodityDto: CreateCommodityDto) {
+    return this.commodityModel.create(createCommodityDto);
   }
 
-  async findAllCommodities(page = 1, limit = 16) {
-    const total = await this.commodityModel.countDocuments();
+  async findAll(page = 1, limit = 16) {
+    const total = await this.commodityModel.countDocuments().exec();
     const results = await this.commodityModel
       .find()
       .skip((page - 1) * limit)
-      .limit(limit);
-    return { page, limit, total, results };
+      .limit(limit)
+      .lean()
+      .exec();
+
+    return {
+      statusCode: 200,
+      data: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        results,
+      },
+      timestamp: new Date().toISOString(),
+    };
   }
 
-  async findByIdCommodity(id: string) {
-    const commodity = await this.commodityModel.findById(id);
+  async findById(id: string) {
+    const commodity = await this.commodityModel.findById(id).exec();
     if (!commodity) throw new NotFoundException('Commodity not found');
     return commodity;
   }
 
-  async updateCommodity(id: string, updateCommodityDto: UpdateCommodityDto) {
-    const updatedCommodity = await this.commodityModel.findByIdAndUpdate(
-      id,
-      updateCommodityDto,
-      {
-        new: true,
-      },
-    );
+  async update(id: string, updateCommodityDto: UpdateCommodityDto) {
+    const updatedCommodity = await this.commodityModel
+      .findByIdAndUpdate(id, updateCommodityDto, { new: true })
+      .exec();
+
     if (!updatedCommodity) throw new NotFoundException('Commodity not found');
     return updatedCommodity;
   }
 
-  async deleteCommodity(id: string) {
-    const deletedCommodity = await this.commodityModel.findByIdAndDelete(id);
+  async delete(id: string) {
+    const deletedCommodity = await this.commodityModel
+      .findByIdAndDelete(id)
+      .exec();
     if (!deletedCommodity) throw new NotFoundException('Commodity not found');
-    return deletedCommodity;
+    return { message: 'Commodity deleted successfully' };
   }
 }

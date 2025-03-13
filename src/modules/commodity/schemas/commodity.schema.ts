@@ -10,12 +10,6 @@ export class Commodity {
 
   @Prop({ required: true })
   commodityName: string;
-
-  @Prop({ required: true })
-  createdBy: string;
-
-  @Prop()
-  modifiedBy?: string;
 }
 
 export const CommoditySchema = SchemaFactory.createForClass(Commodity);

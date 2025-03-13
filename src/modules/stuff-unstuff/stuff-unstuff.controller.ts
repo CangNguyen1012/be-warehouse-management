@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateStuffUnstuffDto } from './dto/create-stuff-unstuff.dto';
-import { StuffUnstuffService } from './stuff-unstuff.service';
 import { UpdateStuffUnstuffDto } from './dto/update-stuff-unstuff.dto';
+import { StuffUnstuffService } from './stuff-unstuff.service';
 
 @ApiTags('stuff-unstuff')
 @Controller('stuff-unstuff')
@@ -22,83 +22,80 @@ export class StuffUnstuffController {
 
   @Post()
   @HttpCode(201)
-  @ApiOperation({ summary: 'Create stuff unstuff' })
+  @ApiOperation({ summary: 'Create a new stuff unstuff record' })
   @ApiResponse({ status: 201, description: 'Created successfully' })
-  async create(@Body() createStuffUnstuffDto: CreateStuffUnstuffDto) {
+  async create(@Body() createDto: CreateStuffUnstuffDto) {
+    const data = await this.stuffUnstuffService.createStuffUnstuff(createDto);
     return {
       statusCode: 201,
-      data: await this.stuffUnstuffService.createStuffUnstuff(
-        createStuffUnstuffDto,
-      ),
+      data,
       timestamp: new Date().toISOString(),
     };
   }
 
   @Get()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Find all stuff unstuff' })
-  @ApiResponse({ status: 200, description: 'Found successfully' })
+  @ApiOperation({ summary: 'Retrieve all stuff unstuff records' })
+  @ApiResponse({ status: 200, description: 'Records retrieved successfully' })
   async findAll(@Query('page') page = 1, @Query('limit') limit = 22) {
+    const data = await this.stuffUnstuffService.findAllStuffUnstuffs(
+      page,
+      limit,
+    );
     return {
       statusCode: 200,
-      data: await this.stuffUnstuffService.findAllStuffUnstuffs(page, limit),
+      data,
       timestamp: new Date().toISOString(),
     };
   }
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Find one stuff unstuff' })
-  @ApiResponse({ status: 200, description: 'Found successfully' })
-  @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiOperation({ summary: 'Retrieve a specific stuff unstuff record' })
+  @ApiResponse({ status: 200, description: 'Record found' })
+  @ApiResponse({ status: 404, description: 'Record not found' })
   async findById(@Param('id') id: string) {
-    const item = await this.stuffUnstuffService.findByIdStuffUnstuff(id);
-    if (!item) {
-      throw new NotFoundException('StuffUnstuff not found');
-    }
+    const data = await this.stuffUnstuffService.findByIdStuffUnstuff(id);
+    if (!data) throw new NotFoundException('StuffUnstuff record not found');
     return {
       statusCode: 200,
-      data: item,
+      data,
       timestamp: new Date().toISOString(),
     };
   }
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update stuff unstuff' })
+  @ApiOperation({ summary: 'Update a stuff unstuff record' })
   @ApiResponse({ status: 200, description: 'Updated successfully' })
-  @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiResponse({ status: 404, description: 'Record not found' })
   async update(
     @Param('id') id: string,
-    @Body() updateStuffUnstuffDto: UpdateStuffUnstuffDto,
+    @Body() updateDto: UpdateStuffUnstuffDto,
   ) {
-    const updatedItem = await this.stuffUnstuffService.updateStuffUnstuff(
+    const data = await this.stuffUnstuffService.updateStuffUnstuff(
       id,
-      updateStuffUnstuffDto,
+      updateDto,
     );
-    if (!updatedItem) {
-      throw new NotFoundException('StuffUnstuff not found');
-    }
+    if (!data) throw new NotFoundException('StuffUnstuff record not found');
     return {
       statusCode: 200,
-      data: updatedItem,
+      data,
       timestamp: new Date().toISOString(),
     };
   }
 
   @Delete(':id')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Delete stuff unstuff' })
+  @ApiOperation({ summary: 'Delete a stuff unstuff record' })
   @ApiResponse({ status: 200, description: 'Deleted successfully' })
-  @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiResponse({ status: 404, description: 'Record not found' })
   async delete(@Param('id') id: string) {
-    const deletedItem = await this.stuffUnstuffService.deleteStuffUnstuff(id);
-    if (!deletedItem) {
-      throw new NotFoundException('StuffUnstuff not found');
-    }
+    const data = await this.stuffUnstuffService.deleteStuffUnstuff(id);
+    if (!data) throw new NotFoundException('StuffUnstuff record not found');
     return {
       statusCode: 200,
-      data: deletedItem,
+      data,
       timestamp: new Date().toISOString(),
     };
   }

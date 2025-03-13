@@ -8,23 +8,22 @@ import { Country, CountryDocument } from './schemas/country.schema';
 @Injectable()
 export class CountriesService {
   constructor(
-    @InjectModel(Country.name) private countryModel: Model<CountryDocument>,
+    @InjectModel(Country.name)
+    private readonly countryModel: Model<CountryDocument>,
   ) {}
 
   async createCountry(createCountryDto: CreateCountryDto): Promise<Country> {
-    const createdCountry = new this.countryModel(createCountryDto);
-    return createdCountry.save();
+    return this.countryModel.create(createCountryDto);
   }
 
   async findAllCountries(): Promise<Country[]> {
-    return this.countryModel.find().exec();
+    return this.countryModel.find();
   }
 
   async findOneCountry(id: string): Promise<Country> {
-    const country = await this.countryModel.findById(id).exec();
-    if (!country) {
+    const country = await this.countryModel.findById(id);
+    if (!country)
       throw new NotFoundException(`Country with ID ${id} not found`);
-    }
     return country;
   }
 
@@ -32,19 +31,22 @@ export class CountriesService {
     id: string,
     updateCountryDto: UpdateCountryDto,
   ): Promise<Country> {
-    const updatedCountry = await this.countryModel
-      .findByIdAndUpdate(id, updateCountryDto, { new: true })
-      .exec();
-    if (!updatedCountry) {
+    const updatedCountry = await this.countryModel.findByIdAndUpdate(
+      id,
+      updateCountryDto,
+      {
+        new: true,
+      },
+    );
+    if (!updatedCountry)
       throw new NotFoundException(`Country with ID ${id} not found`);
-    }
     return updatedCountry;
   }
 
-  async removeCountry(id: string): Promise<void> {
-    const result = await this.countryModel.findByIdAndDelete(id).exec();
-    if (!result) {
+  async removeCountry(id: string): Promise<{ message: string }> {
+    const deletedCountry = await this.countryModel.findByIdAndDelete(id);
+    if (!deletedCountry)
       throw new NotFoundException(`Country with ID ${id} not found`);
-    }
+    return { message: 'Country deleted successfully' };
   }
 }

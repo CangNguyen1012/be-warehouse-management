@@ -21,9 +21,6 @@ export class JobMode {
   isCfsUnstuff: boolean;
 
   @Prop({ default: false })
-  isCfsChange: boolean;
-
-  @Prop({ default: false })
   isServiceYard: boolean;
 
   @Prop({ default: false })
@@ -31,12 +28,6 @@ export class JobMode {
 
   @Prop({ default: 0 })
   extraMode: number;
-
-  @Prop({ required: true })
-  createdBy: string;
-
-  @Prop()
-  modifiedBy?: string;
 }
 
 export const JobModeSchema = SchemaFactory.createForClass(JobMode);

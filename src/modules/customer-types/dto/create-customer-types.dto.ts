@@ -1,19 +1,19 @@
 import { IsString, IsNumber, IsOptional, IsNotEmpty } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateCustomerTypeDto {
+  @ApiProperty({ description: 'Code of the customer type' })
   @IsString()
   @IsNotEmpty()
-  readonly customerTypeCode: string;
+  customerTypeCode: string;
 
+  @ApiProperty({ description: 'Name of the customer type' })
   @IsString()
   @IsNotEmpty()
-  readonly customerTypeName: string;
+  customerTypeName: string;
 
+  @ApiPropertyOptional({ description: 'Rank of the user group' })
   @IsNumber()
   @IsOptional()
-  readonly userGroupRank?: number;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly createdBy: string;
+  userGroupRank?: number;
 }
