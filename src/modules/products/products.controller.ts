@@ -9,6 +9,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -16,6 +17,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -57,14 +59,33 @@ export class ProductsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all containers' })
+  @ApiOperation({ summary: 'Get all products with pagination' })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    example: 1,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    example: 10,
+    description: 'Number of items per page',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'List of products retrieved successfully.',
+  })
   @ApiResponse({ status: 500, description: 'Internal Server Error.' })
-  async findAll(): Promise<any> {
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<any> {
     try {
-      return await this.productsService.findAll();
+      return await this.productsService.findAll(page, limit);
     } catch (error) {
-      console.error('Error fetching containers:', error);
-      throw new InternalServerErrorException('Failed to fetch containers');
+      console.error('Error fetching products:', error);
+      throw new InternalServerErrorException('Failed to fetch products');
     }
   }
 

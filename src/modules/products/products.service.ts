@@ -26,8 +26,23 @@ export class ProductsService {
     return this.productModel.insertMany(createProductDto);
   }
 
-  async findAll(): Promise<Product[]> {
-    return this.productModel.find().exec();
+  async findAll(
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<{
+    total: number;
+    page: number;
+    limit: number;
+    results: Product[];
+  }> {
+    const total = await this.productModel.countDocuments();
+    const results = await this.productModel
+      .find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    return { total, page, limit, results };
   }
 
   async findOne(id: string): Promise<Product> {
