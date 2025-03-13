@@ -22,7 +22,7 @@ import { Refer } from './schemas/refer.schema';
 import { CreateReferDto } from './dto/create-refer.dto';
 import { UpdateReferDto } from './dto/update-refer.dto';
 
-@Controller('refer')
+@Controller('refers')
 @ApiTags('refer')
 export class ReferController {
   constructor(private readonly referService: ReferService) {}
