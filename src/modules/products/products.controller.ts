@@ -21,16 +21,16 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-@ApiTags('products')
-@Controller('products')
+@ApiTags('Containers')
+@Controller('containers')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create one or multiple products' })
+  @ApiOperation({ summary: 'Create one or multiple containers' })
   @ApiResponse({
     status: 201,
-    description: 'The product(s) have been successfully created.',
+    description: 'The container(s) have been successfully created.',
   })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiBody({ type: [CreateProductDto] })
@@ -42,52 +42,52 @@ export class ProductsController {
         !createProductDto ||
         (Array.isArray(createProductDto) && createProductDto.length === 0)
       ) {
-        throw new BadRequestException('Product data is required');
+        throw new BadRequestException('Container data is required');
       }
 
       const products = Array.isArray(createProductDto)
         ? await this.productsService.createMany(createProductDto)
         : await this.productsService.createOne(createProductDto);
 
-      return { message: 'Product(s) successfully created', data: products };
+      return { message: 'Container(s) successfully created', data: products };
     } catch (error) {
-      console.error('Error creating product:', error);
-      throw new InternalServerErrorException('Failed to create product(s)');
+      console.error('Error creating container:', error);
+      throw new InternalServerErrorException('Failed to create container(s)');
     }
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all products' })
+  @ApiOperation({ summary: 'Get all containers' })
   @ApiResponse({ status: 500, description: 'Internal Server Error.' })
   async findAll(): Promise<any> {
     try {
       return await this.productsService.findAll();
     } catch (error) {
-      console.error('Error fetching products:', error);
-      throw new InternalServerErrorException('Failed to fetch products');
+      console.error('Error fetching containers:', error);
+      throw new InternalServerErrorException('Failed to fetch containers');
     }
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a product by ID' })
-  @ApiParam({ name: 'id', required: true, description: 'Product ID' })
-  @ApiResponse({ status: 200, description: 'Return the product.' })
-  @ApiResponse({ status: 404, description: 'Product not found.' })
+  @ApiOperation({ summary: 'Get a container by ID' })
+  @ApiParam({ name: 'id', required: true, description: 'Container ID' })
+  @ApiResponse({ status: 200, description: 'Return the container.' })
+  @ApiResponse({ status: 404, description: 'Container not found.' })
   async findOne(@Param('id') id: string): Promise<any> {
     try {
       return await this.productsService.findOne(id);
     } catch (error) {
-      console.error('Error fetching product:', error);
-      throw new NotFoundException('Product not found');
+      console.error('Error fetching container:', error);
+      throw new NotFoundException('Container not found');
     }
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Update a product' })
-  @ApiParam({ name: 'id', required: true, description: 'Product ID' })
+  @ApiOperation({ summary: 'Update a container' })
+  @ApiParam({ name: 'id', required: true, description: 'Container ID' })
   @ApiResponse({
     status: 200,
-    description: 'The product has been successfully updated.',
+    description: 'The container has been successfully updated.',
   })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiBody({ type: UpdateProductDto })
@@ -103,15 +103,15 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a product' })
-  @ApiParam({ name: 'id', required: true, description: 'Product ID' })
+  @ApiOperation({ summary: 'Delete a container' })
+  @ApiParam({ name: 'id', required: true, description: 'Container ID' })
   @ApiResponse({
     status: 200,
-    description: 'The product has been successfully deleted.',
+    description: 'The container has been successfully deleted.',
   })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   async remove(@Param('id') id: string): Promise<any> {
     await this.productsService.remove(id);
-    return { message: 'Product successfully deleted' };
+    return { message: 'Container successfully deleted' };
   }
 }
