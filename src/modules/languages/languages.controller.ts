@@ -63,11 +63,10 @@ export class LanguagesController {
     type: [Language],
   })
   async findAll(@Query('page') page = '1', @Query('limit') limit = '10') {
-    const data = await this.languagesService.findAllLanguages(
+    return await this.languagesService.findAllLanguages(
       Number(page),
       Number(limit),
     );
-    return { data };
   }
 
   @Get(':id')
@@ -77,7 +76,7 @@ export class LanguagesController {
   @ApiResponse({ status: 404, description: 'Language not found.' })
   async findOne(@Param('id') id: string) {
     const data = await this.languagesService.findOneLanguage(id);
-    return { statusCode: 200, data };
+    return data;
   }
 
   @Put(':id')

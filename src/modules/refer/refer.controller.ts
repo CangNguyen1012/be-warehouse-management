@@ -56,14 +56,7 @@ export class ReferController {
     isArray: true,
   })
   async findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
-    const data = await this.referService.findAll(Number(page), Number(limit));
-
-    return {
-      statusCode: 200,
-      message: 'Successfully retrieved the list of refers',
-      data,
-      timestamps: new Date().toISOString(),
-    };
+    return this.referService.findAll(Number(page), Number(limit));
   }
 
   @Get(':id')

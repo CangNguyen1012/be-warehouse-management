@@ -38,15 +38,7 @@ export class StuffUnstuffController {
   @ApiOperation({ summary: 'Retrieve all stuff unstuff records' })
   @ApiResponse({ status: 200, description: 'Records retrieved successfully' })
   async findAll(@Query('page') page = 1, @Query('limit') limit = 22) {
-    const data = await this.stuffUnstuffService.findAllStuffUnstuffs(
-      page,
-      limit,
-    );
-    return {
-      statusCode: 200,
-      data,
-      timestamp: new Date().toISOString(),
-    };
+    return await this.stuffUnstuffService.findAllStuffUnstuffs(page, limit);
   }
 
   @Get(':id')

@@ -42,14 +42,18 @@ export class ReferService {
     const refers = await this.referModel.find().skip(skip).limit(limit).exec();
 
     return {
-      total,
-      page,
-      limit,
-      results: refers.map((refer) => ({
-        ...refer.toObject(),
-        applyDate: this.adjustToUTC(refer.applyDate),
-        expireDate: this.adjustToUTC(refer.expireDate),
-      })),
+      statusCode: 200,
+      data: {
+        total,
+        page,
+        limit,
+        results: refers.map((refer) => ({
+          ...refer.toObject(),
+          applyDate: this.adjustToUTC(refer.applyDate),
+          expireDate: this.adjustToUTC(refer.expireDate),
+        })),
+      },
+      timestamps: new Date().toISOString(),
     };
   }
 

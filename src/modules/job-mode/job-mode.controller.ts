@@ -58,8 +58,7 @@ export class JobModeController {
     type: [JobMode],
   })
   async findAll(@Query('page') page = '1', @Query('limit') limit = '10') {
-    const data = await this.jobModeService.findAll(Number(page), Number(limit));
-    return { statusCode: 200, data };
+    return await this.jobModeService.findAll(Number(page), Number(limit));
   }
 
   @Get(':id')
