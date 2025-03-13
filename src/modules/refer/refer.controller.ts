@@ -55,7 +55,7 @@ export class ReferController {
     type: Refer,
     isArray: true,
   })
-  async findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+  async findAll(@Query('page') page = 1, @Query('limit') limit = 25) {
     return this.referService.findAll(Number(page), Number(limit));
   }
 

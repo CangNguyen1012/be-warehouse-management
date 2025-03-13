@@ -32,7 +32,7 @@ export class ReferService {
   }
 
   // Get all refer records
-  async findAll(page: number, limit?: number) {
+  async findAll(page: number, limit: number) {
     const total = await this.referModel.countDocuments(); // Get total records
 
     // If `limit` is not provided, set it to `total`
