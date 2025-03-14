@@ -49,7 +49,11 @@ export class LanguagesService {
         .limit(limit)
         .lean();
 
-      return { page, limit, total, results };
+      return {
+        statusCode: 200,
+        data: { page, limit, total, results },
+        timestamp: new Date().toISOString(),
+      };
     } catch {
       throw new InternalServerErrorException('Error fetching languages');
     }
