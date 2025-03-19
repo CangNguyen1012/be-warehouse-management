@@ -71,7 +71,7 @@ export class ProductsController {
     description: 'Containers retrieved successfully.',
   })
   async findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
-    return await this.productsService.findAll(page, limit);
+    return await this.productsService.findAll(Number(page), Number(limit));
   }
 
   @Get(':id')
