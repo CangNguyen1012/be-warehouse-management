@@ -29,11 +29,11 @@ export class VesselsService {
   }
 
   async findOne(id: string) {
-    return this.vesselModel.findById(id);
+    return await this.vesselModel.findById(id);
   }
 
   async update(id: string, updateVesselDto: UpdateVesselDto) {
-    return this.vesselModel.findByIdAndUpdate(id, updateVesselDto, {
+    return await this.vesselModel.findByIdAndUpdate(id, updateVesselDto, {
       new: true,
     });
   }
