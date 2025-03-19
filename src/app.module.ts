@@ -11,6 +11,7 @@ import { CustomerTypesModule } from './modules/customer-types/customer-types.mod
 import { ReferModule } from './modules/refer/refer.module';
 import { BookingModule } from './modules/booking/booking.module';
 import { OperationsModule } from './modules/operations/operations.module';
+import { VesselsModule } from './modules/vessels/vessels.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { OperationsModule } from './modules/operations/operations.module';
     ReferModule,
     BookingModule,
     OperationsModule,
+    VesselsModule,
   ],
 })
 export class AppModule {}

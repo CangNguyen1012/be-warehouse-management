@@ -14,7 +14,7 @@ import { CreateOperationDto } from './dtos/create-operation.dto';
 import { UpdateOperationDto } from './dtos/update-operation.dto';
 
 @Controller('operations')
-@ApiTags('operations')
+@ApiTags('Operations')
 export class OperationsController {
   constructor(private readonly operationsService: OperationsService) {}
 
