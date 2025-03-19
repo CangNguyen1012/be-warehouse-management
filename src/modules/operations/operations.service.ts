@@ -16,11 +16,14 @@ export class OperationsService {
   async findAll(query: any = {}, page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit;
 
-    const data = await this.operationModel.find(query).skip(skip).limit(limit);
+    const results = await this.operationModel
+      .find(query)
+      .skip(skip)
+      .limit(limit);
 
     return {
       statusCode: 200,
-      data,
+      data: { limit, results },
       timestamp: new Date().toISOString(),
     };
   }
