@@ -9,6 +9,8 @@ import { CommoditiesModule } from './modules/commodity/commodities.module';
 import { StuffUnstuffModule } from './modules/stuff-unstuff/stuff-unstuff.module';
 import { CustomerTypesModule } from './modules/customer-types/customer-types.module';
 import { ReferModule } from './modules/refer/refer.module';
+import { BookingModule } from './modules/booking/booking.module';
+import { OperationsModule } from './modules/operations/operations.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { ReferModule } from './modules/refer/refer.module';
     StuffUnstuffModule,
     CustomerTypesModule,
     ReferModule,
+    BookingModule,
+    OperationsModule,
   ],
 })
 export class AppModule {}
