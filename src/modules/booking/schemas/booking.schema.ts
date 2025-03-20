@@ -19,101 +19,101 @@ export class Booking {
   @Prop({ required: true })
   bookingStatus: number;
 
-  @Prop()
+  @Prop({ required: true })
   expDate: Date;
 
-  @Prop()
+  @Prop({ required: true })
   operationCode: string;
 
-  @Prop()
+  @Prop({ required: true })
   localSizeType: string;
 
-  @Prop()
+  @Prop({ required: true })
   isoSizeType: string;
 
-  @Prop()
-  bookingAmount: string;
+  @Prop({ required: true })
+  bookingAmount: number;
 
-  @Prop()
-  stackingAmount: string;
+  @Prop({ required: true })
+  stackingAmount: number;
 
-  @Prop()
-  containerNo: string;
+  @Prop({ required: false, default: null })
+  containerNo?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   vesselKey?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   vesselImvoy?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   vesselExvoy?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   pol?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   pod?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   fpod?: string;
 
-  @Prop()
-  commodity: string;
+  @Prop({ required: false, default: null })
+  commodity?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   temperature?: number;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   vent?: number;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   ventUnit?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   bookingClass?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   unno?: string;
 
-  @Prop()
-  oogTop?: number;
+  @Prop({ required: false, default: null })
+  oogTop?: string;
 
-  @Prop()
-  oogLeft?: number;
+  @Prop({ required: false, default: null })
+  oogLeft?: string;
 
-  @Prop()
-  oogRight?: number;
+  @Prop({ required: false, default: null })
+  oogRight?: string;
 
-  @Prop()
-  oogBack?: number;
+  @Prop({ required: false, default: null })
+  oogBack?: string;
 
-  @Prop()
-  oogFront?: number;
+  @Prop({ required: false, default: null })
+  oogFront?: string;
 
-  @Prop()
-  o2?: number;
+  @Prop({ required: false, default: null })
+  o2?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   co2?: string;
 
-  @Prop()
+  @Prop({ required: false, default: '' })
   note?: string;
 
-  @Prop()
-  vesselName: string;
+  @Prop({ required: false, default: null })
+  vesselName?: string;
 
-  @Prop()
+  @Prop({ required: false, default: '' })
   shipperName?: string;
 
-  @Prop()
-  humidity?: number;
+  @Prop({ required: false, default: null })
+  humidity?: string;
 
-  @Prop()
+  @Prop({ required: false, default: null })
   userGroupRank?: number;
 
-  @Prop()
-  type?: number;
+  @Prop({ required: false })
+  type: number;
 }
 
 export const BookingSchema = SchemaFactory.createForClass(Booking);

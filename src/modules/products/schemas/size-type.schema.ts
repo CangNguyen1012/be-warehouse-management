@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type ProductDocument = Product & Document;
+export type SizeTypeDocument = SizeType & Document;
 
 @Schema({ timestamps: true })
-export class Product {
+export class SizeType {
   @Prop({ required: true })
   operationCode: string;
 
@@ -21,4 +21,4 @@ export class Product {
   emptyCargoTypeCode: string;
 }
 
-export const ProductSchema = SchemaFactory.createForClass(Product);
+export const SizeTypeSchema = SchemaFactory.createForClass(SizeType);

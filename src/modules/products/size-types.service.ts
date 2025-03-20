@@ -5,31 +5,31 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product, ProductDocument } from './schemas/product.schema';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { SizeType, SizeTypeDocument } from './schemas/size-type.schema';
+import { CreateSizeTypeDto } from './dto/create-size-type.dto';
+import { UpdateSizeTypeDto } from './dto/update-size-type.dto';
 
 @Injectable()
-export class ProductsService {
+export class SizeTypesService {
   constructor(
-    @InjectModel(Product.name)
-    private readonly productModel: Model<ProductDocument>,
+    @InjectModel(SizeType.name)
+    private readonly sizeTypeModel: Model<SizeTypeDocument>,
   ) {}
 
-  async createOne(createProductDto: CreateProductDto): Promise<Product> {
-    return await this.productModel.create(createProductDto);
+  async createOne(createProductDto: CreateSizeTypeDto) {
+    return await this.sizeTypeModel.create(createProductDto);
   }
 
-  async createMany(createProductDto: CreateProductDto[]): Promise<Product[]> {
+  async createMany(createProductDto: CreateSizeTypeDto[]): Promise<SizeType[]> {
     if (!createProductDto?.length) {
       throw new BadRequestException('Container data is required');
     }
-    return await this.productModel.insertMany(createProductDto);
+    return await this.sizeTypeModel.insertMany(createProductDto);
   }
 
   async findAll(page = 1, limit = 10) {
-    const total = await this.productModel.countDocuments().exec();
-    const results = await this.productModel
+    const total = await this.sizeTypeModel.countDocuments().exec();
+    const results = await this.sizeTypeModel
       .find()
       .skip((page - 1) * limit)
       .limit(limit)
@@ -42,8 +42,8 @@ export class ProductsService {
     };
   }
 
-  async findOne(id: string): Promise<Product> {
-    const product = await this.productModel.findById(id).exec();
+  async findOne(id: string): Promise<SizeType> {
+    const product = await this.sizeTypeModel.findById(id).exec();
     if (!product)
       throw new NotFoundException(`Container with ID ${id} not found`);
     return product;
@@ -51,13 +51,13 @@ export class ProductsService {
 
   async update(
     id: string,
-    updateProductDto: UpdateProductDto,
-  ): Promise<Product> {
+    updateProductDto: UpdateSizeTypeDto,
+  ): Promise<SizeType> {
     if (!Object.keys(updateProductDto).length) {
       throw new BadRequestException('Update data is required');
     }
 
-    const updatedProduct = await this.productModel
+    const updatedProduct = await this.sizeTypeModel
       .findByIdAndUpdate(id, updateProductDto, { new: true })
       .exec();
 
@@ -68,8 +68,10 @@ export class ProductsService {
 
   async remove(
     id: string,
-  ): Promise<{ message: string; deletedProduct: Product }> {
-    const deletedProduct = await this.productModel.findByIdAndDelete(id).exec();
+  ): Promise<{ message: string; deletedProduct: SizeType }> {
+    const deletedProduct = await this.sizeTypeModel
+      .findByIdAndDelete(id)
+      .exec();
     if (!deletedProduct) {
       throw new NotFoundException(`Container with ID ${id} not found`);
     }
