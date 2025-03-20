@@ -2,15 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdateVesselDto {
-  @ApiProperty({ description: 'Terminal ID' })
+  @ApiProperty({ description: 'Operation Code' })
   @IsString()
   @IsNotEmpty()
-  terminalId: string;
-
-  @ApiProperty({ description: 'Vessel Type' })
-  @IsString()
-  @IsNotEmpty()
-  vesselType: string;
+  operationCode: string;
 
   @ApiProperty({ description: 'Vessel Code' })
   @IsString()
@@ -24,7 +19,6 @@ export class UpdateVesselDto {
 
   @ApiProperty({ description: 'Call Sign' })
   @IsString()
-  @IsNotEmpty()
   callSign: string;
 
   @ApiProperty({ description: 'IMO' })

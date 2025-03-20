@@ -8,10 +8,7 @@ export type VesselDocument = Vessel & Document;
 })
 export class Vessel {
   @Prop({ required: true })
-  terminalId: string;
-
-  @Prop({ required: true })
-  vesselType: string;
+  operationCode: string;
 
   @Prop({ required: true })
   vesselCode: string;
@@ -19,7 +16,7 @@ export class Vessel {
   @Prop({ required: true })
   vesselName: string;
 
-  @Prop({ required: true })
+  @Prop()
   callSign: string;
 
   @Prop()
