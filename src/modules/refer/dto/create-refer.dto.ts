@@ -9,10 +9,6 @@ export class CreateReferDto {
   operationCode: string;
 
   @ApiProperty()
-  @IsString()
-  refName: string;
-
-  @ApiProperty()
   @IsNotEmpty()
   @IsDate()
   @Type(() => Date)

@@ -8,9 +8,6 @@ export class Refer {
   @Prop({ required: true })
   operationCode: string;
 
-  @Prop()
-  refName: string;
-
   @Prop({
     type: Date,
     get: (val: Date) => val,

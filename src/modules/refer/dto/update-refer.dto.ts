@@ -9,10 +9,6 @@ export class UpdateReferDto {
   operationCode: string;
 
   @ApiProperty()
-  @IsString()
-  refName: string;
-
-  @ApiProperty()
   @IsDate()
   @Type(() => Date)
   applyDate: Date;
