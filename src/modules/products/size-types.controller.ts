@@ -9,7 +9,6 @@ import {
   NotFoundException,
   Put,
   Query,
-  Req,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -22,7 +21,6 @@ import {
 import { SizeTypesService } from './size-types.service';
 import { CreateSizeTypeDto } from './dto/create-size-type.dto';
 import { UpdateSizeTypeDto } from './dto/update-size-type.dto';
-import { query } from 'express';
 
 @ApiTags('Size Types')
 @Controller('size-types')
@@ -76,19 +74,11 @@ export class SizeTypesController {
     type: String,
     example: 'HLC',
   })
-  async findWithFilters(@Query() query: any) {
-    console.log('Raw Query:', query);
-
-    // Extract pagination parameters with defaults
-    const page = Number(query.page) || 1;
-    const limit = Number(query.limit) || 10;
-
-    // Remove page & limit from query to keep only filters
-    const filters = { ...query };
-    delete filters.page;
-    delete filters.limit;
-
-    return this.sizeTypesService.findWithFilters(filters, page, limit);
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number,
+  ) {
+    return await this.sizeTypesService.findAll(page, limit);
   }
 
   @Get(':id')

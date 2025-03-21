@@ -27,34 +27,14 @@ export class SizeTypesService {
     return await this.sizeTypeModel.insertMany(createProductDto);
   }
 
-  async findWithFilters(filters: any, page = 1, limit = 10): Promise<any> {
-    const query: any = {};
-
-    // Handling filtering logic
-    if (filters['filter[0][field]'] && filters['filter[0][value]']) {
-      const field = filters['filter[0][field]'];
-      const value = filters['filter[0][value]'];
-
-      if (filters['filter[0][type]'] === 'contains') {
-        query[field] = { $regex: value, $options: 'i' }; // Case-insensitive search
-      } else {
-        query[field] = value;
-      }
-    }
-
-    // Fetch total count before applying pagination
-    const total = await this.sizeTypeModel.countDocuments(query).exec();
-
-    // Apply pagination
-    const results = await this.sizeTypeModel
-      .find(query)
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .exec();
+  async findAll(page: number = 1, limit: number) {
+    const total = await this.sizeTypeModel.countDocuments();
+    const skip = (page - 1) * limit;
+    const results = await this.sizeTypeModel.find().skip(skip).limit(limit);
 
     return {
       statusCode: 200,
-      data: { page, limit, total, results },
+      data: { page, limit: total, total, results },
       timestamp: new Date().toISOString(),
     };
   }

@@ -30,14 +30,10 @@ export class ImosController {
 
   @Get()
   @ApiOperation({ summary: 'Get all imos' })
-  @ApiQuery({ name: 'page', required: false, type: Number })
-  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 5000 })
   @ApiResponse({ status: 200, description: 'Get all imos' })
-  async findAll(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number,
-  ) {
-    return await this.imosService.findAll(page, limit);
+  async findAll(@Query('limit') limit: number) {
+    return await this.imosService.findAll(1, limit);
   }
 
   @Get(':id')
