@@ -9,6 +9,7 @@ import {
   NotFoundException,
   Put,
   Query,
+  Req,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -21,6 +22,7 @@ import {
 import { SizeTypesService } from './size-types.service';
 import { CreateSizeTypeDto } from './dto/create-size-type.dto';
 import { UpdateSizeTypeDto } from './dto/update-size-type.dto';
+import { query } from 'express';
 
 @ApiTags('Size Types')
 @Controller('size-types')
@@ -53,25 +55,40 @@ export class SizeTypesController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Retrieve all size-types with pagination' })
+  @ApiResponse({ status: 200, description: 'Returns a list of size types' })
+  @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
   @ApiQuery({
-    name: 'page',
+    name: 'filter[0][field]',
     required: false,
-    example: 1,
-    description: 'Page number',
+    type: String,
+    example: 'operationCode',
   })
   @ApiQuery({
-    name: 'limit',
+    name: 'filter[0][type]',
     required: false,
-    example: 10,
-    description: 'Items per page',
+    type: String,
+    example: 'contains',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Size-types retrieved successfully.',
+  @ApiQuery({
+    name: 'filter[0][value]',
+    required: false,
+    type: String,
+    example: 'HLC',
   })
-  async findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
-    return await this.sizeTypesService.findAll(Number(page), Number(limit));
+  async findWithFilters(@Query() query: any) {
+    console.log('Raw Query:', query);
+
+    // Extract pagination parameters with defaults
+    const page = Number(query.page) || 1;
+    const limit = Number(query.limit) || 10;
+
+    // Remove page & limit from query to keep only filters
+    const filters = { ...query };
+    delete filters.page;
+    delete filters.limit;
+
+    return this.sizeTypesService.findWithFilters(filters, page, limit);
   }
 
   @Get(':id')

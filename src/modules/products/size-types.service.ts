@@ -13,7 +13,7 @@ import { UpdateSizeTypeDto } from './dto/update-size-type.dto';
 export class SizeTypesService {
   constructor(
     @InjectModel(SizeType.name)
-    private readonly sizeTypeModel: Model<SizeTypeDocument>,
+    private sizeTypeModel: Model<SizeTypeDocument>,
   ) {}
 
   async createOne(createProductDto: CreateSizeTypeDto) {
@@ -27,10 +27,27 @@ export class SizeTypesService {
     return await this.sizeTypeModel.insertMany(createProductDto);
   }
 
-  async findAll(page = 1, limit = 10) {
-    const total = await this.sizeTypeModel.countDocuments().exec();
+  async findWithFilters(filters: any, page = 1, limit = 10): Promise<any> {
+    const query: any = {};
+
+    // Handling filtering logic
+    if (filters['filter[0][field]'] && filters['filter[0][value]']) {
+      const field = filters['filter[0][field]'];
+      const value = filters['filter[0][value]'];
+
+      if (filters['filter[0][type]'] === 'contains') {
+        query[field] = { $regex: value, $options: 'i' }; // Case-insensitive search
+      } else {
+        query[field] = value;
+      }
+    }
+
+    // Fetch total count before applying pagination
+    const total = await this.sizeTypeModel.countDocuments(query).exec();
+
+    // Apply pagination
     const results = await this.sizeTypeModel
-      .find()
+      .find(query)
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
