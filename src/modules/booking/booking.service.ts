@@ -1,44 +1,63 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { BookindDocument, Booking } from './schemas/booking.schema';
-import { Model } from 'mongoose';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BookingRepository } from './repository/booking.repository';
 import { CreateBookingDto } from './dtos/create-booking.dto';
 import { UpdateBookingDto } from './dtos/update-booking.dto';
 
 @Injectable()
 export class BookingService {
-  constructor(
-    @InjectModel(Booking.name) private bookingModel: Model<BookindDocument>,
-  ) {}
+  private logger = new Logger(BookingService.name);
 
-  async create(createBookingDto: CreateBookingDto) {
-    const createdBooking = new this.bookingModel(createBookingDto);
-    return createdBooking.save();
+  constructor(private bookingRepository: BookingRepository) {}
+
+  async createBooking(createBookingDto: CreateBookingDto) {
+    return await this.bookingRepository.create(createBookingDto);
   }
 
-  async findAll(page: number = 1, limit: number) {
-    const total = await this.bookingModel.countDocuments();
-    const skip = (page - 1) * limit;
-    const results = await this.bookingModel.find().skip(skip).limit(limit);
-
+  async findAllBookings(page: number = 1, limit: number) {
+    const { total, results } = await this.bookingRepository.findAll(
+      page,
+      limit,
+    );
     return {
       statusCode: 200,
-      data: { page, limit: total, total, results },
+      data: { page, limit, total, results },
       timestamp: new Date().toISOString(),
     };
   }
 
-  async findOne(id: string) {
-    return await this.bookingModel.findById(id);
+  async findOneBooking(id: string) {
+    const booking = await this.bookingRepository.findById(id);
+    if (!booking) {
+      this.logger.warn(`Booking not found with ID: ${id}`);
+      throw new NotFoundException(`Không tìm thấy booking với ID: ${id}`);
+    }
+    return booking;
   }
 
-  async update(id: string, updateBookingDto: UpdateBookingDto) {
-    return await this.bookingModel.findByIdAndUpdate(id, updateBookingDto, {
-      new: true,
-    });
+  async updateBooking(id: string, updateBookingDto: UpdateBookingDto) {
+    try {
+      return await this.bookingRepository.update(id, updateBookingDto);
+    } catch (error) {
+      this.logger.warn(`Update failed - Booking ID not found: ${id}`);
+      throw new NotFoundException(`Không tìm thấy booking với ID: ${id}`);
+    }
   }
 
-  async remove(id: string) {
-    return await this.bookingModel.findByIdAndDelete(id);
+  async deleteBooking(id: string) {
+    try {
+      return await this.bookingRepository.delete(id);
+    } catch (error) {
+      this.logger.warn(`Delete failed - Booking ID not found: ${id}`);
+      throw new NotFoundException(`Không tìm thấy booking với ID: ${id}`);
+    }
+  }
+
+  async cancelBooking(id: string) {
+    try {
+      return await this.bookingRepository.updateBookingStatus(id, 4);
+    } catch (error) {
+      this.logger.warn(`Cancel failed - Booking not found with ID: ${id}`);
+      throw new NotFoundException(`Không tìm thấy booking với ID: ${id}`);
+    }
   }
 }

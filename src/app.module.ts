@@ -6,7 +6,6 @@ import { LanguagesModule } from './modules/languages/languages.module';
 import { CountriesModule } from './modules/countries/countries.module';
 import { JobModeModule } from './modules/job-mode/job-mode.module';
 import { CommoditiesModule } from './modules/commodity/commodities.module';
-import { StuffUnstuffModule } from './modules/stuff-unstuff/stuff-unstuff.module';
 import { CustomerTypesModule } from './modules/customer-types/customer-types.module';
 import { ReferModule } from './modules/refer/refer.module';
 import { BookingModule } from './modules/booking/booking.module';
@@ -29,7 +28,6 @@ import { ImosModule } from './modules/imos/imos.module';
     CountriesModule,
     JobModeModule,
     CommoditiesModule,
-    StuffUnstuffModule,
     CustomerTypesModule,
     ReferModule,
     OperationsModule,

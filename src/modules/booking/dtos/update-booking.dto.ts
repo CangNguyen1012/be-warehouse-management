@@ -6,6 +6,8 @@ import {
   IsString,
   IsOptional,
   IsDate,
+  IsArray,
+  ArrayNotEmpty,
 } from 'class-validator';
 
 export class UpdateBookingDto {
@@ -62,9 +64,9 @@ export class UpdateBookingDto {
   stackingAmount: number;
 
   @ApiProperty({ description: 'Container number' })
-  @IsString()
-  @IsNotEmpty()
-  containerNo: string;
+  @IsArray()
+  @ArrayNotEmpty()
+  containerNo: string[];
 
   @ApiPropertyOptional({ description: 'Vessel Key' })
   @IsString()
