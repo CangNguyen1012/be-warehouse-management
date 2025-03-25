@@ -19,7 +19,7 @@ export class ContainerService {
     );
     return {
       statusCode: 200,
-      data: { page, limit, total, results },
+      data: { page, limit: total, total, results },
       timestamp: new Date().toISOString(),
     };
   }
