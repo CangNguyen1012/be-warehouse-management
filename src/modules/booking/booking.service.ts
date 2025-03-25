@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { BookingRepository } from './repository/booking.repository';
 import { CreateBookingDto } from './dtos/create-booking.dto';

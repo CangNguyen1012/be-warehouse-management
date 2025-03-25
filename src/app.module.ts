@@ -15,6 +15,7 @@ import { PortsModule } from './modules/ports/ports.module';
 import { CustomersModule } from './modules/customers/customers.module';
 import { JobsModule } from './modules/jobs/jobs.module';
 import { ImosModule } from './modules/imos/imos.module';
+import { ContainersModule } from './modules/containers/containers.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ImosModule } from './modules/imos/imos.module';
     CustomersModule,
     JobsModule,
     ImosModule,
+    ContainersModule,
   ],
 })
 export class AppModule {}
