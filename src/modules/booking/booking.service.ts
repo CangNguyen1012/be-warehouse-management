@@ -14,14 +14,35 @@ export class BookingService {
     return await this.bookingRepository.create(createBookingDto);
   }
 
-  async findAllBookings(page: number = 1, limit: number) {
+  async findAllBookings(
+    page: number = 1,
+    limit: number,
+    fromDate?: string,
+    toDate?: string,
+    operationCode?: string,
+    bookingNo?: string,
+    vesselKey?: string,
+    pol?: string,
+    pod?: string,
+    fpod?: string,
+    bookingStatus?: number[],
+  ) {
     const { total, results } = await this.bookingRepository.findAll(
       page,
       limit,
+      fromDate,
+      toDate,
+      operationCode,
+      bookingNo,
+      vesselKey,
+      pol,
+      pod,
+      fpod,
+      bookingStatus,
     );
     return {
       statusCode: 200,
-      data: { page, limit, total, results },
+      data: { page, limit: total, total, results },
       timestamp: new Date().toISOString(),
     };
   }

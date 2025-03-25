@@ -25,11 +25,57 @@ export class BookingRepository {
   async findAll(
     page: number,
     limit: number,
+    fromDate?: string,
+    toDate?: string,
+    operationCode?: string,
+    bookingNo?: string,
+    vesselKey?: string,
+    pol?: string,
+    pod?: string,
+    fpod?: string,
+    bookingStatus?: number[],
   ): Promise<{ total: number; results: Booking[] }> {
-    const total = await this.bookingModel.countDocuments();
+    const filter: {
+      bookingDate?: { $gte: Date; $lt: Date };
+      operationCode?: string;
+      bookingNo?: string;
+      vesselKey?: string;
+      pol?: string;
+      pod?: string;
+      fpod?: string;
+      bookingStatus?: { $in: number[] };
+    } = {};
+    if (fromDate && toDate) {
+      filter.bookingDate = {
+        $gte: new Date(fromDate),
+        $lt: new Date(toDate),
+      };
+    }
+    if (operationCode) {
+      filter.operationCode = operationCode;
+    }
+    if (bookingNo) {
+      filter.bookingNo = bookingNo;
+    }
+    if (vesselKey) {
+      filter.vesselKey = vesselKey;
+    }
+    if (pol) {
+      filter.pol = pol;
+    }
+    if (pod) {
+      filter.pod = pod;
+    }
+    if (fpod) {
+      filter.fpod = fpod;
+    }
+    if (bookingStatus && bookingStatus.length > 0) {
+      filter.bookingStatus = { $in: bookingStatus };
+    }
+    const total = await this.bookingModel.countDocuments(filter);
     const skip = (page - 1) * limit;
     const results = await this.bookingModel
-      .find()
+      .find(filter)
       .skip(skip)
       .limit(limit)
       .lean();
