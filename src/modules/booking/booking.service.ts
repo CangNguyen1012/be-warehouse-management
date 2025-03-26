@@ -3,14 +3,42 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { BookingRepository } from './repository/booking.repository';
 import { CreateBookingDto } from './dtos/create-booking.dto';
 import { UpdateBookingDto } from './dtos/update-booking.dto';
+import { SizeTypesRepository } from '../products/repository/size-types.repository';
+import { ContainerRepository } from '../containers/repository/containers.reposity';
 
 @Injectable()
 export class BookingService {
   private logger = new Logger(BookingService.name);
 
-  constructor(private bookingRepository: BookingRepository) {}
+  constructor(
+    private bookingRepository: BookingRepository,
+    private sizeTypesRepository: SizeTypesRepository,
+    private containerRepository: ContainerRepository,
+  ) {}
 
   async createBooking(createBookingDto: CreateBookingDto) {
+    const { operationCode, isoSizetype } = createBookingDto;
+
+    const sizeTypes =
+      await this.sizeTypesRepository.findByOperationCode(operationCode);
+    if (!sizeTypes.length) {
+      throw new NotFoundException(
+        `Size types not found for operation code: ${operationCode}`,
+      );
+    }
+
+    const availableContainers =
+      await this.containerRepository.findByOperationCodeAndIsoSizetype(
+        operationCode,
+        isoSizetype,
+      );
+
+    if (!availableContainers.length) {
+      throw new NotFoundException(
+        `Containers not found for operation code: ${operationCode} and iso sizetype: ${isoSizetype}`,
+      );
+    }
+
     return await this.bookingRepository.create(createBookingDto);
   }
 

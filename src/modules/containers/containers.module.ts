@@ -13,5 +13,6 @@ import { Container, ContainerSchema } from './schemas/container.schema';
   ],
   providers: [ContainerService, ContainerRepository],
   controllers: [ContainerController],
+  exports: [ContainerRepository],
 })
 export class ContainersModule {}

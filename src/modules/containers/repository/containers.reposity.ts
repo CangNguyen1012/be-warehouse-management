@@ -46,4 +46,13 @@ export class ContainerRepository {
   async delete(id: string): Promise<Container | null> {
     return this.containerModel.findByIdAndDelete(id).exec();
   }
+
+  async findByOperationCodeAndIsoSizetype(
+    operationCode: string,
+    isoSizetype: string,
+  ): Promise<Container[]> {
+    return await this.containerModel
+      .find({ operationCode, isoSizetype })
+      .lean();
+  }
 }

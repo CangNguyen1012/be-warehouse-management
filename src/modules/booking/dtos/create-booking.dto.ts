@@ -62,7 +62,6 @@ export class CreateBookingDto {
 
   @ApiProperty({
     description: 'Container number',
-    example: ['CONT123456', 'CONT789012'],
   })
   @IsString()
   @IsNotEmpty()

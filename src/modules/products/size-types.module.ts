@@ -13,5 +13,6 @@ import { SizeTypesRepository } from './repository/size-types.repository';
   ],
   controllers: [SizeTypesController],
   providers: [SizeTypesService, SizeTypesRepository],
+  exports: [SizeTypesRepository],
 })
 export class SizeTypesModule {}

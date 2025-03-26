@@ -52,4 +52,8 @@ export class SizeTypesRepository {
     if (!deleted)
       throw new NotFoundException(`SizeType with ID ${id} not found`);
   }
+
+  async findByOperationCode(operationCode: string) {
+    return await this.sizeTypeModel.find({ operationCode }).lean();
+  }
 }
