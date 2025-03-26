@@ -12,10 +12,17 @@ export class ContainerService {
     return this.containerRepository.create(data);
   }
 
-  async findAll(page: number = 1, limit: number) {
+  async findAll(
+    page: number = 1,
+    limit: number,
+    operationCode?: string,
+    isoSizetype?: string,
+  ) {
     const { total, results } = await this.containerRepository.findAll(
       page,
       limit,
+      operationCode,
+      isoSizetype,
     );
     return {
       statusCode: 200,

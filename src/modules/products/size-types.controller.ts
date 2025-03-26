@@ -40,29 +40,17 @@ export class SizeTypesController {
   @ApiResponse({ status: 200, description: 'Returns a list of size types' })
   @ApiQuery({ name: 'page', required: false, type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, type: Number, example: 10 })
-  @ApiQuery({
-    name: 'filter[0][field]',
-    required: false,
-    type: String,
-    example: 'operationCode',
-  })
-  @ApiQuery({
-    name: 'filter[0][type]',
-    required: false,
-    type: String,
-    example: 'contains',
-  })
-  @ApiQuery({
-    name: 'filter[0][value]',
-    required: false,
-    type: String,
-    example: 'HLC',
-  })
+  @ApiQuery({ name: 'operationCode', required: false, type: String })
   async findAll(
     @Query('page') page: number = 1,
     @Query('limit') limit: number,
+    @Query('operationCode') operationCode: string,
   ) {
-    return await this.sizeTypesService.findAllSizeTypes(page, limit);
+    return await this.sizeTypesService.findAllSizeTypes(
+      page,
+      limit,
+      operationCode,
+    );
   }
 
   @Get(':id')

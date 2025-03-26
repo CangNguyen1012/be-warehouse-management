@@ -19,11 +19,20 @@ export class ContainerRepository {
   async findAll(
     page: number,
     limit: number,
+    operationCode?: string,
+    isoSizetype?: string,
   ): Promise<{ total: number; results: Container[] }> {
-    const total = await this.containerModel.countDocuments();
+    const filter: { operationCode?: string; isoSizetype?: string } = {};
+    if (operationCode) {
+      filter.operationCode = operationCode;
+    }
+    if (isoSizetype) {
+      filter.isoSizetype = isoSizetype;
+    }
+    const total = await this.containerModel.countDocuments(filter);
     const skip = (page - 1) * limit;
     const results = await this.containerModel
-      .find()
+      .find(filter)
       .skip(skip)
       .limit(limit)
       .lean();

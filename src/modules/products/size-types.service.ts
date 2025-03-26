@@ -11,10 +11,11 @@ export class SizeTypesService {
     return await this.sizeTypesRepository.create(createSizeTypeDto);
   }
 
-  async findAllSizeTypes(page: number, limit: number) {
+  async findAllSizeTypes(page: number, limit: number, operationCode?: string) {
     const { total, results } = await this.sizeTypesRepository.findAll(
       page,
       limit,
+      operationCode,
     );
     return {
       statusCode: 200,

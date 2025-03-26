@@ -12,6 +12,7 @@ import { ContainerService } from './containers.service';
 import { Container } from './schemas/container.schema';
 import { CreateContainerDto } from './dtos/create-container.dto';
 import { UpdateContainerDto } from './dtos/update-container.dto';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('containers')
 export class ContainerController {
@@ -23,8 +24,42 @@ export class ContainerController {
   }
 
   @Get()
-  async findAll(@Query('page') page: number, @Query('limit') limit: number) {
-    return this.containerService.findAll(page, limit);
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    description: 'Page number',
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    required: false,
+    description: 'Results per page',
+  })
+  @ApiQuery({
+    name: 'operationCode',
+    type: String,
+    required: false,
+    description: 'Operation code',
+  })
+  @ApiQuery({
+    name: 'isoSizetype',
+    type: String,
+    required: false,
+    description: 'ISO sizetype',
+  })
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 5000,
+    @Query('operationCode') operationCode?: string,
+    @Query('isoSizetype') isoSizetype?: string,
+  ) {
+    return await this.containerService.findAll(
+      page,
+      limit,
+      operationCode,
+      isoSizetype,
+    );
   }
 
   @Get(':id')

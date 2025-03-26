@@ -18,11 +18,16 @@ export class SizeTypesRepository {
   async findAll(
     page: number,
     limit: number,
+    operationCode?: string,
   ): Promise<{ total: number; results: SizeType[] }> {
-    const total = await this.sizeTypeModel.countDocuments();
+    const filter: { operationCode?: string } = {};
+    if (operationCode) {
+      filter.operationCode = operationCode;
+    }
+    const total = await this.sizeTypeModel.countDocuments(filter);
     const skip = (page - 1) * limit;
     const results = await this.sizeTypeModel
-      .find()
+      .find(filter)
       .skip(skip)
       .limit(limit)
       .lean();

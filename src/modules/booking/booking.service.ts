@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { BookingRepository } from './repository/booking.repository';
 import { CreateBookingDto } from './dtos/create-booking.dto';
@@ -87,7 +86,7 @@ export class BookingService {
   async updateBooking(id: string, updateBookingDto: UpdateBookingDto) {
     try {
       return await this.bookingRepository.update(id, updateBookingDto);
-    } catch (error) {
+    } catch {
       this.logger.warn(`Update failed - Booking ID not found: ${id}`);
       throw new NotFoundException(`Không tìm thấy booking với ID: ${id}`);
     }
@@ -96,7 +95,7 @@ export class BookingService {
   async deleteBooking(id: string) {
     try {
       return await this.bookingRepository.delete(id);
-    } catch (error) {
+    } catch {
       this.logger.warn(`Delete failed - Booking ID not found: ${id}`);
       throw new NotFoundException(`Không tìm thấy booking với ID: ${id}`);
     }
@@ -105,7 +104,7 @@ export class BookingService {
   async cancelBooking(id: string) {
     try {
       return await this.bookingRepository.updateBookingStatus(id, 4);
-    } catch (error) {
+    } catch {
       this.logger.warn(`Cancel failed - Booking not found with ID: ${id}`);
       throw new NotFoundException(`Không tìm thấy booking với ID: ${id}`);
     }
