@@ -26,10 +26,10 @@ export class Booking {
   operationCode: string;
 
   @Prop({ required: true })
-  localSizeType: string;
+  localSizetype: string;
 
   @Prop({ required: true })
-  isoSizeType: string;
+  isoSizetype: string;
 
   @Prop({ required: true })
   bookingAmount: number;

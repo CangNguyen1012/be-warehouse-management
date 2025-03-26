@@ -44,12 +44,12 @@ export class UpdateBookingDto {
   @ApiProperty({ description: 'Operation local size type' })
   @IsString()
   @IsNotEmpty()
-  localSizeType: string;
+  localSizetype: string;
 
   @ApiProperty({ description: 'Operation ISO size type' })
   @IsString()
   @IsNotEmpty()
-  isoSizeType: string;
+  isoSizetype: string;
 
   @ApiProperty({ description: 'Booking amount' })
   @IsNumber()
