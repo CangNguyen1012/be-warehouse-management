@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -28,7 +29,7 @@ export class CommoditiesController {
   @ApiResponse({ status: 201, description: 'Commodity created successfully.' })
   @ApiBody({ type: CreateCommodityDto })
   create(@Body() createCommodityDto: CreateCommodityDto) {
-    return this.commoditiesService.create(createCommodityDto);
+    return this.commoditiesService.createCommodity(createCommodityDto);
   }
 
   @Get()
@@ -37,8 +38,8 @@ export class CommoditiesController {
     status: 200,
     description: 'List of commodities retrieved successfully.',
   })
-  findAll() {
-    return this.commoditiesService.findAll();
+  findAll(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.commoditiesService.findAllCommodities(page, limit);
   }
 
   @Get(':id')
@@ -50,7 +51,7 @@ export class CommoditiesController {
   })
   @ApiResponse({ status: 404, description: 'Commodity not found.' })
   findOne(@Param('id') id: string) {
-    return this.commoditiesService.findById(id);
+    return this.commoditiesService.findOneCommodity(id);
   }
 
   @Put(':id')
@@ -63,7 +64,7 @@ export class CommoditiesController {
     @Param('id') id: string,
     @Body() updateCommodityDto: UpdateCommodityDto,
   ) {
-    return this.commoditiesService.update(id, updateCommodityDto);
+    return this.commoditiesService.updateCommodity(id, updateCommodityDto);
   }
 
   @Delete(':id')
@@ -72,6 +73,6 @@ export class CommoditiesController {
   @ApiResponse({ status: 204, description: 'Commodity deleted successfully.' })
   @ApiResponse({ status: 404, description: 'Commodity not found.' })
   remove(@Param('id') id: string) {
-    return this.commoditiesService.delete(id);
+    return this.commoditiesService.deleteCommodity(id);
   }
 }

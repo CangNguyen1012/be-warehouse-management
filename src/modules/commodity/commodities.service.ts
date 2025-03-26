@@ -1,63 +1,45 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Commodity, CommodityDocument } from './schemas/commodity.schema';
-import { Model } from 'mongoose';
 import { CreateCommodityDto } from './dto/create-commodity.dto';
 import { UpdateCommodityDto } from './dto/update-commodity.dto';
+import { CommoditiesRepository } from './repository/commodities.repository';
 
 @Injectable()
 export class CommoditiesService {
-  constructor(
-    @InjectModel(Commodity.name)
-    private readonly commodityModel: Model<CommodityDocument>,
-  ) {}
+  constructor(private commoditiesRepository: CommoditiesRepository) {}
 
-  async create(createCommodityDto: CreateCommodityDto) {
-    return this.commodityModel.create(createCommodityDto);
+  async createCommodity(createCommodityDto: CreateCommodityDto) {
+    return await this.commoditiesRepository.create(createCommodityDto);
   }
 
-  async findAll(page = 1, limit = 16) {
-    const total = await this.commodityModel.countDocuments().exec();
-    const results = await this.commodityModel
-      .find()
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .lean()
-      .exec();
-
+  async findAllCommodities(page: number, limit: number) {
+    const { total, results } = await this.commoditiesRepository.findAll(
+      page,
+      limit,
+    );
     return {
       statusCode: 200,
       data: {
         page,
-        limit,
+        limit: total,
         total,
-        totalPages: Math.ceil(total / limit),
         results,
       },
       timestamp: new Date().toISOString(),
     };
   }
 
-  async findById(id: string) {
-    const commodity = await this.commodityModel.findById(id).exec();
-    if (!commodity) throw new NotFoundException('Commodity not found');
+  async findOneCommodity(id: string) {
+    const commodity = await this.commoditiesRepository.findById(id);
+    if (!commodity)
+      throw new NotFoundException(`Commodity with ID ${id} not found`);
     return commodity;
   }
 
-  async update(id: string, updateCommodityDto: UpdateCommodityDto) {
-    const updatedCommodity = await this.commodityModel
-      .findByIdAndUpdate(id, updateCommodityDto, { new: true })
-      .exec();
-
-    if (!updatedCommodity) throw new NotFoundException('Commodity not found');
-    return updatedCommodity;
+  async updateCommodity(id: string, updateCommodityDto: UpdateCommodityDto) {
+    return await this.commoditiesRepository.update(id, updateCommodityDto);
   }
 
-  async delete(id: string) {
-    const deletedCommodity = await this.commodityModel
-      .findByIdAndDelete(id)
-      .exec();
-    if (!deletedCommodity) throw new NotFoundException('Commodity not found');
-    return { message: 'Commodity deleted successfully' };
+  async deleteCommodity(id: string) {
+    return await this.commoditiesRepository.delete(id);
   }
 }

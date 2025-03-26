@@ -7,12 +7,13 @@ import {
   Delete,
   HttpCode,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CustomerTypesService } from './customer-types.service';
 import { CreateCustomerTypeDto } from './dto/create-customer-types.dto';
 import { UpdateCustomerTypeDto } from './dto/update-customer-types.dto';
-import { Customer } from './schemas/customer-type.schema';
+import { CustomerType } from './schemas/customer-type.schema';
 
 @ApiTags('Customer Types')
 @Controller('customer-types')
@@ -25,13 +26,13 @@ export class CustomerTypesController {
   @ApiResponse({
     status: 201,
     description: 'Customer type created successfully.',
-    type: Customer,
+    type: CustomerType,
   })
   @ApiResponse({ status: 400, description: 'Invalid input.' })
   create(
     @Body() createCustomerTypeDto: CreateCustomerTypeDto,
-  ): Promise<Customer> {
-    return this.customerTypesService.create(createCustomerTypeDto);
+  ): Promise<CustomerType> {
+    return this.customerTypesService.createCustomerType(createCustomerTypeDto);
   }
 
   @Get(':id')
@@ -39,11 +40,11 @@ export class CustomerTypesController {
   @ApiResponse({
     status: 200,
     description: 'Customer type retrieved successfully.',
-    type: Customer,
+    type: CustomerType,
   })
   @ApiResponse({ status: 404, description: 'Customer type not found.' })
-  findOne(@Param('id') id: string): Promise<Customer> {
-    return this.customerTypesService.findOne(id);
+  findOne(@Param('id') id: string): Promise<CustomerType> {
+    return this.customerTypesService.findOneCustomerType(id);
   }
 
   @Get()
@@ -51,10 +52,10 @@ export class CustomerTypesController {
   @ApiResponse({
     status: 200,
     description: 'Customer types retrieved successfully.',
-    type: [Customer],
+    type: [CustomerType],
   })
-  findAll(): Promise<Customer[]> {
-    return this.customerTypesService.findAll();
+  findAll(@Query('page') page: number, @Query('limit') limit: number) {
+    return this.customerTypesService.findAllCustomerTypes(page, limit);
   }
 
   @Put(':id')
@@ -63,14 +64,17 @@ export class CustomerTypesController {
   @ApiResponse({
     status: 200,
     description: 'Customer type updated successfully.',
-    type: Customer,
+    type: CustomerType,
   })
   @ApiResponse({ status: 404, description: 'Customer type not found.' })
   update(
     @Param('id') id: string,
     @Body() updateCustomerTypeDto: UpdateCustomerTypeDto,
-  ): Promise<Customer> {
-    return this.customerTypesService.update(id, updateCustomerTypeDto);
+  ): Promise<CustomerType> {
+    return this.customerTypesService.updateCustomerType(
+      id,
+      updateCustomerTypeDto,
+    );
   }
 
   @Delete(':id')
@@ -81,7 +85,7 @@ export class CustomerTypesController {
     description: 'Customer type deleted successfully.',
   })
   @ApiResponse({ status: 404, description: 'Customer type not found.' })
-  remove(@Param('id') id: string): Promise<{ message: string }> {
-    return this.customerTypesService.remove(id);
+  remove(@Param('id') id: string) {
+    return this.customerTypesService.deleteCustomerType(id);
   }
 }

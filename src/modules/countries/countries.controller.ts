@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CountriesService } from './countries.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -30,8 +31,8 @@ export class CountriesController {
   @Get()
   @ApiOperation({ summary: 'Get all countries' })
   @ApiResponse({ status: 200, description: 'Countries retrieved successfully' })
-  async findAll(): Promise<Country[]> {
-    return await this.countriesService.findAllCountries();
+  async findAll(@Query('page') page: number, @Query('limit') limit: number) {
+    return await this.countriesService.findAllCountries(page, limit);
   }
 
   @Get(':id')
@@ -59,7 +60,7 @@ export class CountriesController {
   @ApiResponse({ status: 200, description: 'Country deleted successfully' })
   @ApiResponse({ status: 404, description: 'Country not found' })
   async remove(@Param('id') id: string): Promise<{ message: string }> {
-    await this.countriesService.removeCountry(id);
+    await this.countriesService.deleteCountry(id);
     return { message: 'Country deleted successfully' };
   }
 }

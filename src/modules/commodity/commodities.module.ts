@@ -3,6 +3,7 @@ import { CommoditiesController } from './commodities.controller';
 import { CommoditiesService } from './commodities.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Commodity, CommoditySchema } from './schemas/commodity.schema';
+import { CommoditiesRepository } from './repository/commodities.repository';
 
 @Module({
   imports: [
@@ -11,6 +12,6 @@ import { Commodity, CommoditySchema } from './schemas/commodity.schema';
     ]),
   ],
   controllers: [CommoditiesController],
-  providers: [CommoditiesService],
+  providers: [CommoditiesService, CommoditiesRepository],
 })
 export class CommoditiesModule {}

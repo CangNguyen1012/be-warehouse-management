@@ -23,7 +23,7 @@ export class OperationsController {
   @ApiResponse({ status: 201, description: 'Operation created successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   create(@Body() createOperationDto: CreateOperationDto) {
-    return this.operationsService.create(createOperationDto);
+    return this.operationsService.createOperation(createOperationDto);
   }
 
   @Get()
@@ -33,7 +33,7 @@ export class OperationsController {
     description: 'Operations retrieved successfully',
   })
   findAll(@Query('limit') limit: number = 5000) {
-    return this.operationsService.findAll({}, 1, limit);
+    return this.operationsService.findAllOperations(1, limit);
   }
 
   @Get(':id')
@@ -41,7 +41,7 @@ export class OperationsController {
   @ApiResponse({ status: 200, description: 'Operation retrieved successfully' })
   @ApiResponse({ status: 404, description: 'Operation not found' })
   findOne(@Param('id') id: string) {
-    return this.operationsService.findOne(id);
+    return this.operationsService.findOneOperation(id);
   }
 
   @Put(':id')
@@ -53,7 +53,7 @@ export class OperationsController {
     @Param('id') id: string,
     @Body() updateOperationDto: UpdateOperationDto,
   ) {
-    return this.operationsService.update(id, updateOperationDto);
+    return this.operationsService.updateOperation(id, updateOperationDto);
   }
 
   @Delete(':id')
@@ -61,6 +61,6 @@ export class OperationsController {
   @ApiResponse({ status: 200, description: 'Operation deleted successfully' })
   @ApiResponse({ status: 404, description: 'Operation not found' })
   remove(@Param('id') id: string) {
-    return this.operationsService.remove(id);
+    return this.operationsService.deleteOperation(id);
   }
 }

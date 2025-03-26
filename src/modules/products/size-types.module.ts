@@ -3,6 +3,7 @@ import { SizeTypesController } from './size-types.controller';
 import { SizeTypesService } from './size-types.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SizeType, SizeTypeSchema } from './schemas/size-type.schema';
+import { SizeTypesRepository } from './repository/size-types.repository';
 
 @Module({
   imports: [
@@ -11,6 +12,6 @@ import { SizeType, SizeTypeSchema } from './schemas/size-type.schema';
     ]),
   ],
   controllers: [SizeTypesController],
-  providers: [SizeTypesService],
+  providers: [SizeTypesService, SizeTypesRepository],
 })
 export class SizeTypesModule {}

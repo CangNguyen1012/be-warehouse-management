@@ -1,55 +1,43 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Customer, CustomerDocument } from './schemas/customer-type.schema';
 import { CreateCustomerTypeDto } from './dto/create-customer-types.dto';
 import { UpdateCustomerTypeDto } from './dto/update-customer-types.dto';
+import { CustomerTypesRepository } from './repository/customer-types.repository';
 
 @Injectable()
 export class CustomerTypesService {
-  constructor(
-    @InjectModel(Customer.name)
-    private readonly customerModel: Model<CustomerDocument>,
-  ) {}
+  constructor(private customerTypesRepository: CustomerTypesRepository) {}
 
-  async create(
-    createCustomerTypeDto: CreateCustomerTypeDto,
-  ): Promise<Customer> {
-    return this.customerModel.create(createCustomerTypeDto);
+  async createCustomerType(createCustomerTypeDto: CreateCustomerTypeDto) {
+    return await this.customerTypesRepository.create(createCustomerTypeDto);
   }
 
-  async findAll(): Promise<Customer[]> {
-    return this.customerModel.find().lean().exec();
+  async findAllCustomerTypes(page: number, limit: number) {
+    const { total, results } = await this.customerTypesRepository.findAll(
+      page,
+      limit,
+    );
+    return {
+      statusCode: 200,
+      data: { page, limit: total, total, results },
+      timestamp: new Date().toISOString(),
+    };
   }
 
-  async findOne(id: string): Promise<Customer> {
-    const customerType = await this.customerModel.findById(id).lean().exec();
-    if (!customerType) {
+  async findOneCustomerType(id: string) {
+    const customerType = await this.customerTypesRepository.findById(id);
+    if (!customerType)
       throw new NotFoundException(`CustomerType with ID ${id} not found`);
-    }
     return customerType;
   }
 
-  async update(
+  async updateCustomerType(
     id: string,
     updateCustomerTypeDto: UpdateCustomerTypeDto,
-  ): Promise<Customer> {
-    const updatedCustomerType = await this.customerModel
-      .findByIdAndUpdate(id, updateCustomerTypeDto, { new: true }) // Removed `lean: true`
-      .exec();
-
-    if (!updatedCustomerType) {
-      throw new NotFoundException(`CustomerType with ID ${id} not found`);
-    }
-
-    return updatedCustomerType;
+  ) {
+    return await this.customerTypesRepository.update(id, updateCustomerTypeDto);
   }
 
-  async remove(id: string): Promise<{ message: string }> {
-    const result = await this.customerModel.findByIdAndDelete(id).exec();
-    if (!result) {
-      throw new NotFoundException(`CustomerType with ID ${id} not found`);
-    }
-    return { message: 'CustomerType deleted successfully' };
+  async deleteCustomerType(id: string) {
+    return await this.customerTypesRepository.delete(id);
   }
 }

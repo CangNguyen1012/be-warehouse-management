@@ -5,8 +5,6 @@ import {
   Get,
   Param,
   Post,
-  BadRequestException,
-  NotFoundException,
   Put,
   Query,
 } from '@nestjs/common';
@@ -33,23 +31,9 @@ export class SizeTypesController {
     status: 201,
     description: 'Size-type(s) created successfully.',
   })
-  @ApiResponse({ status: 400, description: 'Invalid request data.' })
-  @ApiBody({ type: [CreateSizeTypeDto] })
-  async create(
-    @Body() createSizeTypeDto: CreateSizeTypeDto | CreateSizeTypeDto[],
-  ) {
-    if (
-      !createSizeTypeDto ||
-      (Array.isArray(createSizeTypeDto) && createSizeTypeDto.length === 0)
-    ) {
-      throw new BadRequestException('Size-type data is required');
-    }
-
-    const products = Array.isArray(createSizeTypeDto)
-      ? await this.sizeTypesService.createMany(createSizeTypeDto)
-      : await this.sizeTypesService.createOne(createSizeTypeDto);
-
-    return { message: 'Size-type(s) successfully created', data: products };
+  @ApiBody({ type: CreateSizeTypeDto })
+  async create(@Body() createSizeTypeDto: CreateSizeTypeDto) {
+    return await this.sizeTypesService.createSizeType(createSizeTypeDto);
   }
 
   @Get()
@@ -78,7 +62,7 @@ export class SizeTypesController {
     @Query('page') page: number = 1,
     @Query('limit') limit: number,
   ) {
-    return await this.sizeTypesService.findAll(page, limit);
+    return await this.sizeTypesService.findAllSizeTypes(page, limit);
   }
 
   @Get(':id')
@@ -90,11 +74,7 @@ export class SizeTypesController {
   })
   @ApiResponse({ status: 404, description: 'Size-type not found.' })
   async findOne(@Param('id') id: string) {
-    const size = await this.sizeTypesService.findOne(id);
-    if (!size) {
-      throw new NotFoundException(`Size-type with ID ${id} not found`);
-    }
-    return size;
+    return await this.sizeTypesService.findOneSizeType(id);
   }
 
   @Put(':id')
@@ -108,18 +88,7 @@ export class SizeTypesController {
     @Param('id') id: string,
     @Body() updateSizeTypeDto: UpdateSizeTypeDto,
   ) {
-    if (!Object.keys(updateSizeTypeDto).length) {
-      throw new BadRequestException('Update data is required');
-    }
-
-    const updatedSizeType = await this.sizeTypesService.update(
-      id,
-      updateSizeTypeDto,
-    );
-    if (!updatedSizeType) {
-      throw new NotFoundException(`Size-type with ID ${id} not found`);
-    }
-    return updatedSizeType;
+    return await this.sizeTypesService.updateSizeType(id, updateSizeTypeDto);
   }
 
   @Delete(':id')
@@ -128,12 +97,6 @@ export class SizeTypesController {
   @ApiResponse({ status: 200, description: 'Size-type deleted successfully.' })
   @ApiResponse({ status: 404, description: 'Size-type not found.' })
   async remove(@Param('id') id: string) {
-    const existingSizeType = await this.sizeTypesService.findOne(id);
-    if (!existingSizeType) {
-      throw new NotFoundException(`Size-type with ID ${id} not found`);
-    }
-
-    await this.sizeTypesService.remove(id);
-    return { message: 'Size-type successfully deleted' };
+    return await this.sizeTypesService.deleteSizeType(id);
   }
 }
