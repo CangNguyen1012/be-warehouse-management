@@ -177,14 +177,6 @@ export class BookingService {
           );
         }
 
-        // Calculate current status to ensure the booking is expired
-        booking.bookingStatus = this.calculateStatus(booking, currentDate);
-        if (booking.bookingStatus !== BookingStatus.EXPIRED) {
-          throw new BadRequestException(
-            'Can only extend expiration date for expired bookings',
-          );
-        }
-
         // Log the expDate change
         this.logger.log(
           `Booking ${id}: Updating expDate from ${booking.expDate.toISOString()} to ${newExpDate.toISOString()} on ${currentDate.toISOString()}`,
