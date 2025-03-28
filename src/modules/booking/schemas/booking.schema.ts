@@ -3,6 +3,14 @@ import { Document } from 'mongoose';
 
 export type BookingDocument = Booking & Document;
 
+export enum BookingStatus {
+  NOT_YET_ALLOCATED = 0,
+  IN_PROGRESS_OF_ALLOCATION = 1,
+  FULLY_ALLOCATED = 2,
+  EXPIRED = 3,
+  CANCELED = 4,
+}
+
 @Schema({
   timestamps: { createdAt: 'created_time', updatedAt: 'updated_time' },
 })
@@ -16,7 +24,7 @@ export class Booking {
   @Prop()
   bookingType: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, enum: BookingStatus })
   bookingStatus: number;
 
   @Prop({ required: true })

@@ -6,7 +6,9 @@ import {
   IsString,
   IsOptional,
   IsDate,
+  IsEnum,
 } from 'class-validator';
+import { BookingStatus } from '../schemas/booking.schema';
 
 export class UpdateBookingDto {
   @ApiProperty({ description: 'Booking ID' })
@@ -26,7 +28,7 @@ export class UpdateBookingDto {
   bookingType: number;
 
   @ApiProperty({ description: 'Booking Status' })
-  @IsNumber()
+  @IsEnum(BookingStatus)
   @IsNotEmpty()
   bookingStatus: number;
 

@@ -36,7 +36,7 @@ export class BookingRepository {
     bookingStatus?: number[],
   ): Promise<{ total: number; results: Booking[] }> {
     const filter: {
-      bookingDate?: { $gte: Date; $lt: Date };
+      bookingDate?: { $gte: Date; $lte: Date };
       operationCode?: string;
       bookingNo?: string;
       vesselKey?: string;
@@ -48,7 +48,7 @@ export class BookingRepository {
     if (fromDate && toDate) {
       filter.bookingDate = {
         $gte: new Date(fromDate),
-        $lt: new Date(toDate),
+        $lte: new Date(toDate),
       };
     }
     if (operationCode) {
