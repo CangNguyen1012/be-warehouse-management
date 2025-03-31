@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 export type ImoDocument = Imo & Document;
 
-@Schema({ timestamps: { createdAt: 'createdTime', updatedAt: 'modifiedTime' } })
+@Schema({ timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } })
 export class Imo {
   @Prop({ required: true })
   imdgClass: string;

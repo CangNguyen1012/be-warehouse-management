@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 import {
   Injectable,
   Logger,
@@ -199,9 +197,11 @@ export class BookingService {
         currentDate,
       );
       return updatedBooking;
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
       this.logger.error(
-        `Update failed for booking ID: ${id} - ${error.message}`,
+        `Update failed for booking ID: ${id} - ${errorMessage}`,
       );
       throw error;
     }
