@@ -10,6 +10,7 @@ import { UpdateBookingDto } from './dtos/update-booking.dto';
 import { SizeTypesRepository } from '../products/repository/size-types.repository';
 import { ContainerRepository } from '../containers/repository/containers.reposity';
 import { Booking, BookingStatus } from './schemas/booking.schema';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class BookingService {
@@ -57,6 +58,30 @@ export class BookingService {
 
     // Fallback (shouldn't reach here if logic is complete)
     return BookingStatus.EXPIRED;
+  }
+
+  @Cron(CronExpression.EVERY_MINUTE)
+  async updateAllBookingsStatus() {
+    this.logger.log('Updating all bookings status...');
+    const currentDate = new Date();
+
+    //Fetch all bookings
+    const { results: bookings } = await this.bookingRepository.findAll(1, 0); // Fetch all bookings by setting limit to 0 (or a very high number)
+
+    //Update each booking's status
+    for (const booking of bookings) {
+      const newStatus = this.calculateStatus(booking, currentDate);
+      if (newStatus !== booking.bookingStatus) {
+        await this.bookingRepository.updateBookingStatus(
+          (booking as any)._id,
+          newStatus,
+        );
+        this.logger.log(
+          `Updated status for booking ${booking.bookingNo} to ${booking.bookingStatus}`,
+        );
+      }
+    }
+    this.logger.log('Finished updating booking statuses.');
   }
 
   async createBooking(createBookingDto: CreateBookingDto) {
