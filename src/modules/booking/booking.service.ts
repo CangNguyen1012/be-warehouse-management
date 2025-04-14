@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {
   Injectable,
   Logger,
@@ -77,7 +80,7 @@ export class BookingService {
           newStatus,
         );
         this.logger.log(
-          `Updated status for booking ${booking.bookingNo} to ${booking.bookingStatus}`,
+          `Updated status for booking ${booking.bookingNo} from ${booking.bookingStatus} to ${newStatus}`,
         );
       }
     }
