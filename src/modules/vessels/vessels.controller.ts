@@ -28,7 +28,8 @@ export class VesselsController {
 
   @Get()
   @ApiOperation({ summary: 'Get all vessels' })
-  @ApiQuery({ name: 'page', required: true, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiResponse({ status: 200, description: 'Vessels retrieved successfully' })
   async findAll(
     @Query('page') page: number = 1,
