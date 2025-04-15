@@ -17,6 +17,8 @@ import { JobsModule } from './modules/jobs/jobs.module';
 import { ImosModule } from './modules/imos/imos.module';
 import { ContainersModule } from './modules/containers/containers.module';
 import { StuffUnstuffsModule } from './modules/stuff-unstuffs/stuff-unstuffs.module';
+import { JobModeMappingsModule } from './modules/job-mode-mappings/job-mode-mappings.module';
+import { ClassesModule } from './modules/classes/classes.module';
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { StuffUnstuffsModule } from './modules/stuff-unstuffs/stuff-unstuffs.mod
     ImosModule,
     ContainersModule,
     StuffUnstuffsModule,
+    JobModeMappingsModule,
+    ClassesModule,
   ],
 })
 export class AppModule {}
