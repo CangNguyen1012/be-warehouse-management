@@ -19,6 +19,7 @@ import { ContainersModule } from './modules/containers/containers.module';
 import { StuffUnstuffsModule } from './modules/stuff-unstuffs/stuff-unstuffs.module';
 import { JobModeMappingsModule } from './modules/job-mode-mappings/job-mode-mappings.module';
 import { ClassesModule } from './modules/classes/classes.module';
+import { TerminalModule } from './modules/terminal/terminal.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { ClassesModule } from './modules/classes/classes.module';
     StuffUnstuffsModule,
     JobModeMappingsModule,
     ClassesModule,
+    TerminalModule,
   ],
 })
 export class AppModule {}

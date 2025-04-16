@@ -59,7 +59,6 @@ export class BookingService {
       return BookingStatus.NOT_YET_ALLOCATED;
     }
 
-    // Fallback (shouldn't reach here if logic is complete)
     return BookingStatus.EXPIRED;
   }
 
