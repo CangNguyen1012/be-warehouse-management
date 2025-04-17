@@ -13,18 +13,6 @@ export class CustomerType extends Document {
 
   @Prop({ required: true })
   userGroupRank: number;
-
-  @Prop({ required: true })
-  createdBy: string;
-
-  @Prop()
-  createdTime: Date;
-
-  @Prop({ required: true })
-  modifiedBy: string;
-
-  @Prop()
-  modifiedTime: Date;
 }
 
-export const CustomerSchema = SchemaFactory.createForClass(CustomerType);
+export const CustomerTypeSchema = SchemaFactory.createForClass(CustomerType);
