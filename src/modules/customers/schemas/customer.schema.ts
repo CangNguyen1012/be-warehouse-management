@@ -3,7 +3,9 @@ import { Document } from 'mongoose';
 
 export type CustomerDocument = Customer & Document;
 
-@Schema({ timestamps: { createdAt: 'created_time', updatedAt: 'update_time' } })
+@Schema({
+  timestamps: { createdAt: 'created_time', updatedAt: 'updated_time' },
+})
 export class Customer {
   @Prop({ required: true })
   customerTypeCode: string;
