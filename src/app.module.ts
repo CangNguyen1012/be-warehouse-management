@@ -20,6 +20,7 @@ import { StuffUnstuffsModule } from './modules/stuff-unstuffs/stuff-unstuffs.mod
 import { JobModeMappingsModule } from './modules/job-mode-mappings/job-mode-mappings.module';
 import { ClassesModule } from './modules/classes/classes.module';
 import { TerminalModule } from './modules/terminal/terminal.module';
+import { ExchangeRatesModule } from './modules/exchange-rates/exchange-rates.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { TerminalModule } from './modules/terminal/terminal.module';
     JobModeMappingsModule,
     ClassesModule,
     TerminalModule,
+    ExchangeRatesModule,
   ],
 })
 export class AppModule {}
