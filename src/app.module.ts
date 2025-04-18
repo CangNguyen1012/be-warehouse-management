@@ -21,6 +21,7 @@ import { JobModeMappingsModule } from './modules/job-mode-mappings/job-mode-mapp
 import { ClassesModule } from './modules/classes/classes.module';
 import { TerminalModule } from './modules/terminal/terminal.module';
 import { ExchangeRatesModule } from './modules/exchange-rates/exchange-rates.module';
+import { PaymentMethodsModule } from './modules/payment-methods/payment-methods.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { ExchangeRatesModule } from './modules/exchange-rates/exchange-rates.mod
     ClassesModule,
     TerminalModule,
     ExchangeRatesModule,
+    PaymentMethodsModule,
   ],
 })
 export class AppModule {}
