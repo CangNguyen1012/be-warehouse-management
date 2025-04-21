@@ -17,12 +17,14 @@ export class ContainerService {
     limit: number,
     operationCode?: string,
     isoSizetype?: string,
+    containerNo?: string,
   ) {
     const { total, results } = await this.containerRepository.findAll(
       page,
       limit,
       operationCode,
       isoSizetype,
+      containerNo,
     );
     return {
       statusCode: 200,

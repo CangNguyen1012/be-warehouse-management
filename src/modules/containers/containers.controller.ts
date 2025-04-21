@@ -48,17 +48,25 @@ export class ContainerController {
     required: false,
     description: 'ISO sizetype',
   })
+  @ApiQuery({
+    name: 'containerNo',
+    type: String,
+    required: false,
+    description: 'Container number',
+  })
   async findAll(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 5000,
     @Query('operationCode') operationCode?: string,
     @Query('isoSizetype') isoSizetype?: string,
+    @Query('containerNo') containerNo?: string,
   ) {
     return await this.containerService.findAll(
       page,
       limit,
       operationCode,
       isoSizetype,
+      containerNo,
     );
   }
 

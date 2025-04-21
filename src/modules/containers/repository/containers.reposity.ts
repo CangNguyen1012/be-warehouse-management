@@ -21,13 +21,21 @@ export class ContainerRepository {
     limit: number,
     operationCode?: string,
     isoSizetype?: string,
+    containerNo?: string,
   ): Promise<{ total: number; results: Container[] }> {
-    const filter: { operationCode?: string; isoSizetype?: string } = {};
+    const filter: {
+      operationCode?: string;
+      isoSizetype?: string;
+      containerNo?: string;
+    } = {};
     if (operationCode) {
       filter.operationCode = operationCode;
     }
     if (isoSizetype) {
       filter.isoSizetype = isoSizetype;
+    }
+    if (containerNo) {
+      filter.containerNo = containerNo;
     }
     const total = await this.containerModel.countDocuments(filter);
     const skip = (page - 1) * limit;
